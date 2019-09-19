@@ -254,7 +254,7 @@ class Core
 			$list[ $k ] = implode( ', ', array_map( 'trim', explode( ',', $v ) ) );
 		}
 
-		return $list;
+		return array_filter( $list );
 	}
 
 	/**
