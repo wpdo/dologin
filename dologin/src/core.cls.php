@@ -24,6 +24,7 @@ class Core
 	);
 
 	private $_visitor_geo_data = array();
+	private $_err_added = false;
 
 	/**
 	 * Init
@@ -35,9 +36,10 @@ class Core
 	{
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'login_head', array( $this, 'login_head' ) );
-		add_filter( 'wp_authenticate_user', array( $this, 'wp_authenticate_user' ), 999, 2 );
+		// add_filter( 'wp_authenticate_user', array( $this, 'wp_authenticate_user' ), 999, 2 );
+		add_filter( 'authenticate', array( $this, 'authenticate' ), 2, 3 );
 
-		REST::get_instance() ;
+		REST::get_instance();
 	}
 
 	/**
@@ -50,17 +52,19 @@ class Core
 	{
 		global $error;
 
-		$this->_visitor_geo_data = $this->geo_ip();
+		if ( $this->_err_added ) {
+			return;
+		}
 
 		// check whitelist
 		if ( ! $this->try_whitelist() ) {
-			$error .= __( 'Login Security', 'dologin' ) . ': ' . __( 'Your IP is not in whitelist.', 'dologin' );
+			$error .= Lang::msg( 'not_in_whitelist' );
 			return;
 		}
 
 		// check blacklist
 		if ( $this->try_blacklist() ) {
-			$error .= __( 'Login Security', 'dologin' ) . ': ' . __( 'Your IP is in blacklist.', 'dologin' );
+			$error .= Lang::msg( 'in_blacklist' );
 			return;
 		}
 	}
@@ -73,14 +77,39 @@ class Core
 	 */
 	public function wp_authenticate_user( $user, $pswd )
 	{
-		if ( is_wp_error( $user ) || $this->try_whitelist() === 'hit' ) {
+
+		return $user;
+	}
+
+	/**
+	 * Authenticate
+	 *
+	 * @since  1.0
+	 * @access public
+	 */
+	public function authenticate( $user, $username, $password )
+	{
+		$in_whitelist = $this->try_whitelist();
+		if ( is_wp_error( $user ) || $in_whitelist === 'hit' ) {
 			return $user;
 		}
 
-		if ( $this->try_blacklist() ) {
-			$error = new \WP_Error();
-			$error->add( 'in_blacklist', 'IP in blacklist.' );
+		$error = new \WP_Error();
 
+		if ( ! $in_whitelist ) {
+			$error->add( 'not_in_whitelist', Lang::msg( 'not_in_whitelist' ) );
+			$this->_err_added = true;
+		}
+
+		if ( $this->try_blacklist() ) {
+			$error->add( 'in_blacklist', Lang::msg( 'in_blacklist' ) );
+			$this->_err_added = true;
+		}
+
+		if ( $this->_err_added ) {
+			// bypass verifying user info
+			remove_filter( 'authenticate', 'wp_authenticate_username_password', 20 );
+			remove_filter( 'authenticate', 'wp_authenticate_email_password', 20 );
 			return $error;
 		}
 
@@ -135,6 +164,10 @@ class Core
 	 */
 	private function maybe_hit_rule( $list )
 	{
+		if ( ! $this->_visitor_geo_data ) {
+			$this->_visitor_geo_data = $this->geo_ip();
+		}
+
 		foreach ( $list as $v ) {
 			$v = explode( ',', $v );
 
@@ -250,7 +283,22 @@ class Core
 	 */
 	public static function ip()
 	{
-		return preg_replace( '/^(\d+\.\d+\.\d+\.\d+):\d+$/', '\1', $_SERVER[ 'REMOTE_ADDR' ] );
+		$_ip = '';
+		if ( function_exists( 'apache_request_headers' ) ) {
+			$apache_headers = apache_request_headers();
+			$_ip = ! empty( $apache_headers['True-Client-IP'] ) ? $apache_headers['True-Client-IP'] : false;
+			if ( ! $_ip ) {
+				$_ip = ! empty( $apache_headers['X-Forwarded-For'] ) ? $apache_headers['X-Forwarded-For'] : false;
+				$_ip = explode( ", ", $_ip );
+				$_ip = array_shift( $_ip );
+			}
+
+			if ( ! $_ip ) {
+				$_ip = ! empty( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : false;
+			}
+		}
+
+		return preg_replace( '/^(\d+\.\d+\.\d+\.\d+):\d+$/', '\1', $_ip );
 	}
 
 	/**

@@ -60,7 +60,7 @@ defined( 'WPINC' ) || exit;
 				</div>
 				<div class="field-col field-col-desc">
 					<p class="description">
-						<?php echo sprintf( __( 'Same format as %s', 'dologin' ), '<code>' . __( 'Whitelist', 'dologin' ) . '</code>' ); ?>
+						<?php echo sprintf( __( 'Same format as %s', 'dologin' ), '<strong>' . __( 'Whitelist', 'dologin' ) . '</strong>' ); ?>
 					</p>
 				</div>
 			</td>
