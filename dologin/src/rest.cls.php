@@ -44,8 +44,7 @@ class REST
 	 */
 	public function myip()
 	{
-		return array( 'html' => Core::get_instance()->geo_ip() );
-
+		return Core::get_instance()->geo_ip();
 	}
 
 	/**

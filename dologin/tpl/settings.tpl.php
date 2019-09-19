@@ -80,7 +80,11 @@ defined( 'WPINC' ) || exit;
 				url: '<?php echo get_rest_url( null, 'dologin/v1/myip' ); ?>',
 				dataType: 'json',
 				success: function( data ) {
-					$( '#dologin_mygeolocation' ).html( data.html ) ;
+					var html = [];
+					$.each( data, function( k, v ) {
+						 html.push( k + ':' + v );
+					});
+					$( '#dologin_mygeolocation' ).html( html.join( ', ' ) ) ;
 				}
 			} ) ;
 		} );
