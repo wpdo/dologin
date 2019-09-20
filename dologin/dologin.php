@@ -1,13 +1,12 @@
 <?php
 /**
- * Plugin Name:       Login Security
+ * Plugin Name:       DOLogin
  * Plugin URI:        https://github.com/wpdo/dologin
  * Description:       Use GeoLocation (Country/City setting), free text sms message or IP range to limit login attempts.
  * Version:           1.0
  * Author:            WPDO
  * License:           GPLv3
  * License URI:       http://www.gnu.org/licenses/gpl.html
- * Text Domain:       dologin
  *
  * Copyright (C) 2019 WPDO
  *

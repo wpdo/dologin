@@ -37,7 +37,7 @@ defined( 'WPINC' ) || exit;
 						<?php echo __( 'One rule set per line.', 'dologin' ); ?>
 					</p>
 					<p class="description">
-						<?php echo __( 'Prefix list', 'dologin' ); ?>: <code>ip</code>, <code><?php echo implode( '</code>, <code>', Core::PREFIX_SET ); ?></code>.
+						<?php echo __( 'Prefix list', 'dologin' ); ?>: <code>ip</code>, <code><?php echo implode( '</code>, <code>', IP::PREFIX_SET ); ?></code>.
 					</p>
 					<p class="description"><?php echo __( 'IP prefix with colon is optional. IP value support wildcard (*).', 'dologin' ); ?></p>
 					<p class="description"><?php echo __( 'Example', 'dologin' ); ?> 1) <code>ip:1.2.3.*</code></p>

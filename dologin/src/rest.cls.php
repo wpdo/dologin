@@ -8,17 +8,17 @@ namespace dologin;
 
 defined( 'WPINC' ) || exit;
 
-class REST
+class REST extends Instance
 {
-	private static $_instance;
+	protected static $_instance;
 
 	/**
 	 * Init
 	 *
 	 * @since  1.0
-	 * @access private
+	 * @access protected
 	 */
-	private function __construct()
+	protected function __construct()
 	{
 		add_action( 'rest_api_init', array( $this, 'rest_api_init' ) );
 	}
@@ -33,33 +33,8 @@ class REST
 	{
 		register_rest_route( 'dologin/v1', '/myip', array(
 			'methods' => 'GET',
-			'callback' => array( $this, 'myip' ),
+			'callback' => __NAMESPACE__ . '\IP::geo',
 		) );
-	}
-
-	/**
-	 * check user ip's Geolocation
-	 *
-	 * @since  1.0
-	 */
-	public function myip()
-	{
-		return Core::get_instance()->geo_ip();
-	}
-
-	/**
-	 * Get the current instance object.
-	 *
-	 * @since 1.0
-	 * @access public
-	 */
-	public static function get_instance()
-	{
-		if ( ! isset( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-
-		return self::$_instance;
 	}
 
 }
