@@ -16,9 +16,9 @@ class REST extends Instance
 	 * Init
 	 *
 	 * @since  1.0
-	 * @access protected
+	 * @access public
 	 */
-	protected function __construct()
+	public function init()
 	{
 		add_action( 'rest_api_init', array( $this, 'rest_api_init' ) );
 	}

@@ -24,10 +24,30 @@ defined( 'WPINC' ) || exit;
 
 	<table class="form-table">
 		<tr>
+			<th scope="row" valign="top"><?php echo __( 'Lockout', 'dologin' ); ?></th>
+			<td>
+				<p><input type="text" size="3" maxlength="4" name="max_retries" value="<?php echo Conf::v( 'max_retries' ); ?>" /> <?php echo __( 'Allowed retries', 'dologin' ); ?></p>
+				<p><input type="text" size="3" maxlength="4" name="lockout_duration" value="<?php echo Conf::v( 'lockout_duration' ); ?>" /> <?php echo __( 'minutes lockout', 'dologin' ); ?></p>
+			</td>
+		</tr>
+
+		<tr>
+			<th scope="row" valign="top"><?php echo __( 'Login Security', 'dologin' ); ?></th>
+			<td>
+				<p><input type="checkbox" name="sms" value="1" <?php echo Conf::v( 'sms' ) ? 'checked' : '' ; ?> /> <?php echo __( 'Enable Two Step SMS Auth', 'dologin' ); ?> </p>
+				<p class="description">
+					<?php echo __( 'Verify text code for each login attempt.', 'dologin' ); ?>
+					<?php echo __( 'Users need to setup Phone in their profile.', 'dologin' ); ?>
+					<?php echo sprintf( __( 'Text message is free sent by API from %s.', 'dologin' ), '<a href="https://www.doapi.us" target="_blank">DoAPI.us</a>' ); ?>
+				</p>
+			</td>
+		</tr>
+
+		<tr>
 			<th scope="row" valign="top"><?php echo __( 'Whitelist', 'dologin' ); ?></th>
 			<td>
 				<div class="field-col">
-					<textarea name="whitelist" rows="15" cols="80"><?php echo esc_textarea( implode( "\n", Core::conf( 'whitelist', array() ) ) ); ?></textarea>
+					<textarea name="whitelist" rows="15" cols="80"><?php echo esc_textarea( implode( "\n", Conf::v( 'whitelist' ) ) ); ?></textarea>
 				</div>
 				<div class="field-col field-col-desc">
 					<p class="description">
@@ -45,7 +65,7 @@ defined( 'WPINC' ) || exit;
 					<p class="description"><?php echo __( 'Example', 'dologin' ); ?> 3) <code>continent: North America, country_code: US, subdivisions_code: NY</code></p>
 					<p class="description"><?php echo __( 'Example', 'dologin' ); ?> 4) <code>subdivisions_code: NY, postal: 10001</code></p>
 					<p class="description">
-						<button type="button" class="button button-link" id="dologin_get_ip"><?php echo __( 'Get my GeoLocation data from', 'dologin' ); ?> doapi.us</button>
+						<button type="button" class="button button-link" id="dologin_get_ip"><?php echo __( 'Get my GeoLocation data from', 'dologin' ); ?> DoAPI.us</button>
 						<code id="dologin_mygeolocation">-</code>
 					</p>
 				</div>
@@ -56,7 +76,7 @@ defined( 'WPINC' ) || exit;
 			<th scope="row" valign="top"><?php echo __( 'Blacklist', 'dologin' ); ?></th>
 			<td>
 				<div class="field-col">
-					<textarea name="blacklist" rows="15" cols="80"><?php echo esc_textarea( implode( "\n", Core::conf( 'blacklist', array() ) ) ); ?></textarea>
+					<textarea name="blacklist" rows="15" cols="80"><?php echo esc_textarea( implode( "\n", Conf::v( 'blacklist' ) ) ); ?></textarea>
 				</div>
 				<div class="field-col field-col-desc">
 					<p class="description">
