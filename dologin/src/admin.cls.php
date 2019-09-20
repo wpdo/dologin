@@ -17,7 +17,6 @@ class Admin extends Instance
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 	}
 
-
 	/**
 	 * Admin setting page
 	 *

@@ -54,6 +54,16 @@ class Auth extends Instance
 			$error .= Lang::msg( 'in_blacklist' );
 			return;
 		}
+
+		// Check if has login error
+		if ( $this->_has_login_err() ) {
+			# code...
+		}
+	}
+
+	private function _has_login_err()
+	{
+		Data::create_tb_failure();
 	}
 
 	/**

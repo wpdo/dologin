@@ -34,7 +34,7 @@ defined( 'WPINC' ) || exit;
 		<tr>
 			<th scope="row" valign="top"><?php echo __( 'Login Security', 'dologin' ); ?></th>
 			<td>
-				<p><input type="checkbox" name="sms" value="1" <?php echo Conf::v( 'sms' ) ? 'checked' : '' ; ?> /> <?php echo __( 'Enable Two Step SMS Auth', 'dologin' ); ?> </p>
+				<p><label><input type="checkbox" name="sms" value="1" <?php echo Conf::v( 'sms' ) ? 'checked' : '' ; ?> /> <?php echo __( 'Enable Two Step SMS Auth', 'dologin' ); ?></label></p>
 				<p class="description">
 					<?php echo __( 'Verify text code for each login attempt.', 'dologin' ); ?>
 					<?php echo __( 'Users need to setup Phone in their profile.', 'dologin' ); ?>
