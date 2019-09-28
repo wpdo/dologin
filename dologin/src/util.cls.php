@@ -64,6 +64,19 @@ class Util extends Instance
 	}
 
 	/**
+	 * Deactivate
+	 *
+	 * @since  1.1
+	 * @access public
+	 */
+	public static function deactivate()
+	{
+		self::get_instance()->version_check( 'deactivate' ) ;
+
+		Data::get_instance()->del_tables();
+	}
+
+	/**
 	 * Uninstall clearance
 	 *
 	 * @since  1.1
@@ -71,7 +84,9 @@ class Util extends Instance
 	 */
 	public static function uninstall()
 	{
-		$this->version_check( 'uninstall' ) ;
+		self::get_instance()->version_check( 'uninstall' ) ;
+
+		Data::get_instance()->del_tables();
 	}
 
 }

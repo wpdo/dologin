@@ -32,6 +32,7 @@ The online IP lookup service is provided by https://www.doapi.us. The provider's
 * *GUI* Setting link shortcut from plugin page.
 * 🐞 Stale settings shown after successfully saved.
 * 🐞 Duration setting can now be saved correctly.
+* 🐞 Fully saved geo location failure log.
 
 = 1.0 - Sep 27 2019 =
 * Initial Release.

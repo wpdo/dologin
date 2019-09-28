@@ -34,6 +34,7 @@ class Core extends Instance
 
 		Util::get_instance()->init();
 
+		register_deactivation_hook( DOLOGIN_DIR . 'dologin.php', __NAMESPACE__ . '\Util::deactivate' ) ;
 		register_uninstall_hook( DOLOGIN_DIR . 'dologin.php', __NAMESPACE__ . '\Util::uninstall' ) ;
 	}
 }

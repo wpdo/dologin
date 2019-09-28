@@ -99,5 +99,23 @@ class Data extends Instance
 		return File::read( DOLOGIN_DIR . 'src/data_structure/' . $tb . '.sql' ) ;
 	}
 
+	/**
+	 * Drop generated tables
+	 *
+	 * @since  1.1
+	 * @access public
+	 */
+	public function del_tables()
+	{
+		global $wpdb ;
+
+		if ( self::tb_failure_exist() ) {
+
+			$q = "DROP TABLE IF EXISTS $this->_tb_failure" ;
+			$wpdb->query( $q ) ;
+		}
+
+	}
+
 
 }

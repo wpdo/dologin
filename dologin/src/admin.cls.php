@@ -103,5 +103,15 @@ class Admin extends Instance
 		return array_filter( $list );
 	}
 
-
+	/**
+	 * Display failure log
+	 *
+	 * @since  1.1
+	 * @access public
+	 */
+	public function log()
+	{
+		global $wpdb;
+		return $wpdb->get_results( 'SELECT * FROM ' . Data::tb_failure() . ' ORDER BY id DESC LIMIT 10' );
+	}
 }
