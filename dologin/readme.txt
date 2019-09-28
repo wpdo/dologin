@@ -23,6 +23,13 @@ When visitors hit the login page, this plugin will lookup the Geolocation info f
 
 The online IP lookup service is provided by https://www.doapi.us. The provider's privacy policy is https://www.doapi.us/privacy.
 
+== Screenshots ==
+
+1. Plugin Settings
+2. Login Page (2 times left)
+3. Login Page (Too many failure)
+4. Login Page (Blacklist blocked)
+
 == Changelog ==
 
 = 1.1 - Sep 28 2019 =
@@ -30,6 +37,7 @@ The online IP lookup service is provided by https://www.doapi.us. The provider's
 * 🍀 *New* GDPR compliance.
 * 🍀 *New* Auto upgrade.
 * *GUI* Setting link shortcut from plugin page.
+* *GUI* Display security status on login page.
 * 🐞 Stale settings shown after successfully saved.
 * 🐞 Duration setting can now be saved correctly.
 * 🐞 Fully saved geo location failure log.

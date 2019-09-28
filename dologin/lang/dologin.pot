@@ -1,0 +1,216 @@
+# Copyright (C) 2019 Limit Login Attempts DoLogin
+# This file is distributed under the same license as the Limit Login Attempts DoLogin package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Limit Login Attempts DoLogin 1.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dologin\n"
+"POT-Creation-Date: 2019-09-28 05:19:00+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: src/admin.cls.php:46
+msgid "Settings"
+msgstr ""
+
+#: src/file.cls.php:111
+msgid "Folder does not exist: %s"
+msgstr ""
+
+#: src/file.cls.php:118
+msgid "Can not create folder: %1$s. Error: %2$s"
+msgstr ""
+
+#: src/file.cls.php:124
+msgid "Folder is not writable: %s."
+msgstr ""
+
+#: src/file.cls.php:130 src/file.cls.php:134
+msgid "File %s is not writable."
+msgstr ""
+
+#: src/file.cls.php:141
+msgid "Failed to write to %s."
+msgstr ""
+
+#: src/lang.cls.php:17
+msgid "Your IP is not in the whitelist."
+msgstr ""
+
+#: src/lang.cls.php:21
+msgid "Your IP is in the blacklist."
+msgstr ""
+
+#: src/lang.cls.php:25
+msgid "Too many failed login attempts."
+msgstr ""
+
+#: src/lang.cls.php:29
+msgid "ON"
+msgstr ""
+
+#: src/lang.cls.php:33
+msgid "%s attempt(s) remaining."
+msgstr ""
+
+#: src/lang.cls.php:41
+msgid "DoLogin Security"
+msgstr ""
+
+#: tpl/settings.tpl.php:33
+msgid "DoLogin Security Settings"
+msgstr ""
+
+#: tpl/settings.tpl.php:45
+msgid "Lockout"
+msgstr ""
+
+#: tpl/settings.tpl.php:47
+msgid "Allowed retries"
+msgstr ""
+
+#: tpl/settings.tpl.php:49
+msgid "minutes lockout"
+msgstr ""
+
+#: tpl/settings.tpl.php:50
+msgid ""
+"If hit %1$s maximum retries in %2$s minutes, the login attempt from that IP "
+"will be temporarily disabled."
+msgstr ""
+
+#: tpl/settings.tpl.php:55
+msgid "GDPR Compliance"
+msgstr ""
+
+#: tpl/settings.tpl.php:57 tpl/settings.tpl.php:122
+msgid "Enable"
+msgstr ""
+
+#: tpl/settings.tpl.php:59
+msgid ""
+"With this feature turned on, all logged IPs get obfuscated (md5-hashed)."
+msgstr ""
+
+#: tpl/settings.tpl.php:65
+msgid "Login Security"
+msgstr ""
+
+#: tpl/settings.tpl.php:67
+msgid "Enable Two Step SMS Auth"
+msgstr ""
+
+#: tpl/settings.tpl.php:69
+msgid "Verify text code for each login attempt."
+msgstr ""
+
+#: tpl/settings.tpl.php:70
+msgid "Users need to setup Phone in their profile."
+msgstr ""
+
+#: tpl/settings.tpl.php:71
+msgid "Text message is free sent by API from %s."
+msgstr ""
+
+#: tpl/settings.tpl.php:77 tpl/settings.tpl.php:113
+msgid "Whitelist"
+msgstr ""
+
+#: tpl/settings.tpl.php:84
+msgid "Format"
+msgstr ""
+
+#: tpl/settings.tpl.php:85
+msgid "Both prefix and value are case insensitive."
+msgstr ""
+
+#: tpl/settings.tpl.php:86
+msgid "Spaces around comma/colon are allowed."
+msgstr ""
+
+#: tpl/settings.tpl.php:87
+msgid "One rule set per line."
+msgstr ""
+
+#: tpl/settings.tpl.php:90
+msgid "Prefix list"
+msgstr ""
+
+#: tpl/settings.tpl.php:92
+msgid "IP prefix with colon is optional. IP value support wildcard (*)."
+msgstr ""
+
+#: tpl/settings.tpl.php:93 tpl/settings.tpl.php:94 tpl/settings.tpl.php:95
+#: tpl/settings.tpl.php:96
+msgid "Example"
+msgstr ""
+
+#: tpl/settings.tpl.php:94
+msgid "Dropped optional prefix"
+msgstr ""
+
+#: tpl/settings.tpl.php:98
+msgid "Get my GeoLocation data from"
+msgstr ""
+
+#: tpl/settings.tpl.php:106
+msgid "Blacklist"
+msgstr ""
+
+#: tpl/settings.tpl.php:113
+msgid "Same format as %s"
+msgstr ""
+
+#: tpl/settings.tpl.php:120
+msgid "Auto Upgrade"
+msgstr ""
+
+#: tpl/settings.tpl.php:124
+msgid "Enable this option to get the latest features at the first moment."
+msgstr ""
+
+#: tpl/settings.tpl.php:155
+msgid "Login Attempts Log"
+msgstr ""
+
+#: tpl/settings.tpl.php:160
+msgid "Date"
+msgstr ""
+
+#: tpl/settings.tpl.php:161
+msgid "IP"
+msgstr ""
+
+#: tpl/settings.tpl.php:162
+msgid "GeoLocation"
+msgstr ""
+
+#: tpl/settings.tpl.php:163
+msgid "Login As"
+msgstr ""
+
+#: tpl/settings.tpl.php:164
+msgid "Gateway"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Limit Login Attempts DoLogin"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/wpdo/dologin"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"GeoLocation (Continent/Country/City) or IP range to limit login attempts. "
+"Support Whitelist and Blacklist. Will have free text SMS message passcode "
+"for 2nd step verification support soon."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "WPDO"
+msgstr ""
