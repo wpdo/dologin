@@ -28,6 +28,15 @@ class Auth extends Instance
 		add_filter( 'authenticate', array( $this, 'authenticate' ), 2, 3 );
 		add_action( 'wp_login_failed', array( $this, 'wp_login_failed' ) );
 
+		// XMLRPC
+		if ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) {
+			add_action( 'init', array( $this, 'check_xmlrpc' ) );
+		}
+
+		// Add notices for XMLRPC request
+		add_filter( 'xmlrpc_login_error', array( $this, 'xmlrpc_error_msg' ) );
+
+
 	}
 
 	/**
@@ -129,10 +138,14 @@ class Auth extends Instance
 			return $user;
 		}
 
-		$in_whitelist = $this->try_whitelist();
-		if ( is_wp_error( $user ) || $in_whitelist === 'hit' ) {
+		if ( is_wp_error( $user ) ) {
 			return $user;
 		}
+
+		$in_whitelist = $this->try_whitelist();
+		// if ( $in_whitelist === 'hit' ) {
+		// 	return $user;
+		// }
 
 		$error = new \WP_Error();
 
@@ -161,6 +174,51 @@ class Auth extends Instance
 		}
 
 		return $user;
+	}
+
+	/**
+	 * Block XMLRPC if bad
+	 *
+	 * @since  1.2
+	 * @access public
+	 */
+	public function check_xmlrpc()
+	{
+		if ( is_user_logged_in() ) {
+			return;
+		}
+
+		if ( ! $this->try_whitelist() || $this->try_blacklist() || $this->_has_login_err() ) {
+			header( 'HTTP/1.0 403 Forbidden' );
+			exit;
+		}
+	}
+
+	/**
+	 * Valiadte XMLRPC
+	 *
+	 * @since  1.2
+	 * @access public
+	 */
+	public function xmlrpc_error_msg( $err )
+	{
+		if ( ! class_exists( 'IXR_Error' ) ) {
+			return $err;
+		}
+
+		if ( ! $this->try_whitelist() ) {
+			return new IXR_Error( 403, Lang::msg( 'not_in_whitelist' ) );
+		}
+
+		if ( $this->try_blacklist() ) {
+			return new IXR_Error( 403, Lang::msg( 'in_blacklist' ) );
+		}
+
+		if ( $err_msg = $this->_has_login_err() ) {
+			return new IXR_Error( 403, $err_msg );
+		}
+
+		return $err;
 	}
 
 	/**
