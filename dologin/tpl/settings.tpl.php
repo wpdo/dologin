@@ -5,19 +5,37 @@ defined( 'WPINC' ) || exit;
 
 ?>
 <style>
-	.login-security-settings .field-col {
+	.dologin-settings .field-col {
 		display: inline-block;
 		margin-right: 20px;
 	}
 
-	.login-security-settings .field-col-desc{
+	.dologin-settings .field-col-desc{
 		min-width: 540px;
 		max-width: calc(100% - 640px);
 		vertical-align: top;
 	}
+
+	.dologin-h2 {
+		display: inline-block;
+	}
+
+	.dologin-desc {
+		font-size: 12px;
+		font-weight: normal;
+		color: #7a919e;
+		margin: 10px 0;
+		line-height: 1.7;
+		max-width: 840px;
+	}
 </style>
-<div class="wrap login-security-settings">
-	<h2><?php echo __( 'DoLogin Security Settings', 'dologin' ); ?></h2>
+<div class="wrap dologin-settings">
+	<h2 class="dologin-h2"><?php echo __( 'DoLogin Security Settings', 'dologin' ); ?></h2>
+	<span class="dologin-desc">
+		v<?php echo Core::VER ; ?>
+	</span>
+
+	<hr class="wp-header-end">
 
 	<form method="post" action="<?php menu_page_url( 'dologin' ); ?>" class="dologin-relative">
 	<?php wp_nonce_field( 'dologin' ); ?>

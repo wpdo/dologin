@@ -12,7 +12,7 @@ class Core extends Instance
 {
 	protected static $_instance;
 
-	const VER = '1.0';
+	const VER = DOLOGIN_V;
 
 	/**
 	 * Init

@@ -33,6 +33,7 @@ if ( defined( 'DOLOGIN_V' ) ) {
 define( 'DOLOGIN_V', '1.1' );
 
 ! defined( 'DOLOGIN_DIR' ) && define( 'DOLOGIN_DIR', dirname( __FILE__ ) . '/' );// Full absolute path '/usr/local/***/wp-content/plugins/dologin/' or MU
+! defined( 'DOLOGIN_PLUGIN_URL' ) && define( 'DOLOGIN_PLUGIN_URL', plugin_dir_url( __FILE__ ) ) ;// Full URL path '//example.com/wp-content/plugins/dologin/'
 
 require_once DOLOGIN_DIR . 'autoload.php';
 

@@ -24,6 +24,7 @@ class Auth extends Instance
 	public function init()
 	{
 		add_action( 'login_head', array( $this, 'login_head' ) );
+		add_action( 'login_message', array( $this, 'login_message' ) );
 		add_filter( 'authenticate', array( $this, 'authenticate' ), 2, 3 );
 		add_action( 'wp_login_failed', array( $this, 'wp_login_failed' ) );
 
@@ -60,6 +61,23 @@ class Auth extends Instance
 			$error .= $err_msg;
 			return;
 		}
+	}
+
+	/**
+	 * Login default display messages
+	 *
+	 * @since  1.1
+	 * @access public
+	 */
+	public function login_message( $msg )
+	{
+		if ( $this->_err_added ) {
+			return;
+		}
+
+		$msg .= '<div class="success">' . Lang::msg( 'under_protected' ) . '<img src="' . DOLOGIN_PLUGIN_URL . 'assets/shield.svg" style="max-width:50px;max-height:37px;float:right;"></div>';
+
+		return $msg;
 	}
 
 	/**
