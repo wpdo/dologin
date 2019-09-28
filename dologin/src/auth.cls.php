@@ -125,6 +125,10 @@ class Auth extends Instance
 	 */
 	public function authenticate( $user, $username, $password )
 	{
+		if ( empty( $username ) || empty( $password ) ) {
+			return $user;
+		}
+
 		$in_whitelist = $this->try_whitelist();
 		if ( is_wp_error( $user ) || $in_whitelist === 'hit' ) {
 			return $user;
