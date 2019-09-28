@@ -3,7 +3,7 @@ Contributors: WPDO
 Tags: Login security, GeoLocation login limit, limit login attempts
 Requires at least: 4.0
 Tested up to: 5.2
-Stable tag: 1.1
+Stable tag: 1.1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -31,6 +31,9 @@ The online IP lookup service is provided by https://www.doapi.us. The provider's
 4. Login Page (Blacklist blocked)
 
 == Changelog ==
+
+= 1.1.1 - Sep 28 2019 =
+* 🐞 Auto upgrade can now check latest version correctly.
 
 = 1.1 - Sep 28 2019 =
 * 🍀 *New* Display login failure log.

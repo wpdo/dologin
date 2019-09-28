@@ -34,7 +34,7 @@ class Util extends Instance
 	public function auto_update( $update, $item )
 	{
 		if ( $item->slug == 'dologin' ) {
-			$auto_v = $this->version_check( 'auto_update_plugin' ) ;
+			$auto_v = self::version_check( 'auto_update_plugin' ) ;
 
 			if ( $auto_v && ! empty( $item->new_version ) && $auto_v === $item->new_version ) {
 				return true ;
@@ -50,7 +50,7 @@ class Util extends Instance
 	 * @since 1.1
 	 * @access public
 	 */
-	public function version_check( $tag )
+	public static function version_check( $tag )
 	{
 		// Check latest stable version allowed to upgrade
 		$url = 'https://doapi.us/compatible_list/dologin?v=' . Core::VER . '&v2=' . ( defined( 'DOLOGIN_CUR_V' ) ? DOLOGIN_CUR_V : '' ) . '&src=' . $tag ;
@@ -71,7 +71,7 @@ class Util extends Instance
 	 */
 	public static function deactivate()
 	{
-		self::get_instance()->version_check( 'deactivate' ) ;
+		self::version_check( 'deactivate' ) ;
 
 		Data::get_instance()->del_tables();
 	}
@@ -84,7 +84,7 @@ class Util extends Instance
 	 */
 	public static function uninstall()
 	{
-		self::get_instance()->version_check( 'uninstall' ) ;
+		self::version_check( 'uninstall' ) ;
 
 		Data::get_instance()->del_tables();
 	}
