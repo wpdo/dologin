@@ -56,14 +56,41 @@ class Auth extends Instance
 		}
 
 		// Check if has login error
-		if ( $this->_has_login_err() ) {
-			# code...
+		if ( $err_msg = $this->_has_login_err( true ) ) {
+			$error .= $err_msg;
+			return;
 		}
 	}
 
-	private function _has_login_err()
+	/**
+	 * Check if has login error limit
+	 *
+	 * @since  1.0
+	 * @access private
+	 */
+	private function _has_login_err( $msg_only = false )
 	{
-		Data::create_tb_failure();
+		global $wpdb;
+
+		$q = 'SELECT COUNT(*) FROM ' . Data::tb_failure() . ' WHERE ip = %s AND dateline > %s ';
+		$err_count = $wpdb->get_var( $wpdb->prepare( $q, array( IP::me(), time() - Conf::val( 'duration' ) * 60 ) ) );
+
+		if ( ! $err_count ) {
+			return false;
+		}
+
+		$max_retries = Conf::val( 'max_retries' );
+
+		// Block visit
+		if ( $err_count < $max_retries ) {
+			if ( $msg_only ) {
+				return Lang::msg( 'max_retries', $max_retries - $err_count );
+			}
+			return false;
+		}
+
+		// Can try but has failure
+		return Lang::msg( 'max_retries_hit' );
 	}
 
 	/**
@@ -91,6 +118,13 @@ class Auth extends Instance
 			$this->_err_added = true;
 		}
 
+		if ( ! $this->_err_added ) {
+			if ( $err_msg = $this->_has_login_err() ) {
+				$error->add( 'in_blacklist', $err_msg );
+				$this->_err_added = true;
+			}
+		}
+
 		if ( $this->_err_added ) {
 			// bypass verifying user info
 			remove_filter( 'authenticate', 'wp_authenticate_username_password', 20 );
@@ -109,8 +143,32 @@ class Auth extends Instance
 	 */
 	public function wp_login_failed( $user )
 	{
-		// create table and log it
+		global $wpdb;
+		// create table
+		Data::get_instance()->create_tb_failure();
+
 		$ip = IP::me();
+
+		// Parse Geo info
+		$ip_geo_list = IP::geo( $ip );
+		unset( $ip_geo_list[ 'ip' ] );
+		$ip_geo = array();
+		foreach ( $ip_geo_list as $k => $v ) {
+			$ip_geo[] = $k . ':' . $v;
+		}
+		$ip_geo = implode( ', ', $ip_geo );
+
+		// Parse gateway
+		$gateway = 'WP Login';
+		if ( isset( $_POST[ 'woocommerce-login-nonce' ] ) ) {
+			$gateway = 'WooCommerce';
+		}
+		elseif ( isset( $GLOBALS[ 'wp_xmlrpc_server' ] ) && is_object( $GLOBALS[ 'wp_xmlrpc_server' ] ) ) {
+			$gateway = 'XMLRPC';
+		}
+
+		$q = 'INSERT INTO ' . Data::tb_failure() . ' SET ip = %s, ip_geo = %s, username = %s, gateway = %s, dateline = %s' ;
+		$wpdb->query( $wpdb->prepare( $q, array( $ip, $ip_geo, $user, $gateway, time() ) ) );
 	}
 
 	/**
@@ -121,7 +179,7 @@ class Auth extends Instance
 	 */
 	private function try_whitelist()
 	{
-		$list = Conf::v( 'whitelist' );
+		$list = Conf::val( 'whitelist' );
 		if ( ! $list ) {
 			return true;
 		}
@@ -141,7 +199,7 @@ class Auth extends Instance
 	 */
 	private function try_blacklist()
 	{
-		$list = Conf::v( 'blacklist' );
+		$list = Conf::val( 'blacklist' );
 		if ( ! $list ) {
 			return false;
 		}

@@ -36,6 +36,8 @@ class Admin extends Instance
 	 */
 	public function setting_page()
 	{
+		Data::get_instance()->create_tb_failure();
+
 		if ( ! empty( $_POST ) ) {
 			check_admin_referer( 'dologin' );
 			// Save options

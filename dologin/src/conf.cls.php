@@ -17,7 +17,7 @@ class Conf extends Instance
 	protected static $_default_options = array(
 		'_ver'				=> Core::VER,
 		'max_retries'		=> 4,
-		'lockout_duration'	=> 20,
+		'duration'			=> 20,
 		'sms'				=> false,
 		'whitelist'			=> array(),
 		'blacklist'			=> array(),
@@ -49,7 +49,7 @@ class Conf extends Instance
 	 * @since  1.0
 	 * @access public
 	 */
-	public static function v( $id )
+	public static function val( $id )
 	{
 		$instance = self::get_instance();
 		if ( isset( $instance->_options[ $id ] ) ) {

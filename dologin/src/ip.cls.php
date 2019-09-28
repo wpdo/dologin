@@ -15,10 +15,10 @@ class IP
 		'continent_code',
 		'country',
 		'country_code',
+		'subdivision',
+		'subdivision_code',
 		'city',
 		'postal',
-		'subdivisions',
-		'subdivisions_code',
 	);
 
 	/**
@@ -53,9 +53,11 @@ class IP
 	 * @since 1.0
 	 * @access public
 	 */
-	public static function geo()
+	public static function geo( $ip = false )
 	{
-		$ip = self::me();
+		if ( ! $ip ) {
+			$ip = self::me();
+		}
 
 		$response = wp_remote_get( "https://www.doapi.us/ip/$ip/json" );
 
@@ -69,10 +71,8 @@ class IP
 
 		// Build geo data
 		$geo_list = array( 'ip' => $ip );
-		foreach ( $data as $prefix => $v ) {
-			if ( in_array( $prefix, self::PREFIX_SET ) ) {
-				$geo_list[ $prefix ] = trim( $v );
-			}
+		foreach ( self::PREFIX_SET as $tag ) {
+			$geo_list[ $tag ] = ! empty( $data[ $tag ] ) ? trim( $data[ $tag ] ) : false;
 		}
 
 		return $geo_list;

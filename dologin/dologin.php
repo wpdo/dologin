@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name:       DOLogin
+ * Plugin Name:       Limit Login Attempts DoLogin
  * Plugin URI:        https://github.com/wpdo/dologin
- * Description:       Use GeoLocation (Country/City setting), free text sms message or IP range to limit login attempts.
+ * Description:       GeoLocation (Continent/Country/City) or IP range to limit login attempts. Support Whitelist and Blacklist. Will have free text SMS message passcode for 2nd step verification support soon.
  * Version:           1.0
  * Author:            WPDO
  * License:           GPLv3

@@ -33,8 +33,16 @@ class REST extends Instance
 	{
 		register_rest_route( 'dologin/v1', '/myip', array(
 			'methods' => 'GET',
-			'callback' => __NAMESPACE__ . '\IP::geo',
+			'callback' => __CLASS__ . '::geoip',
 		) );
+	}
+
+	/**
+	 * Get GeoIP info
+	 */
+	public function geoip()
+	{
+		return IP::geo();
 	}
 
 }
