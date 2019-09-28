@@ -152,27 +152,32 @@ defined( 'WPINC' ) || exit;
 	} );
 </script>
 
-<h3><?php echo __( 'Login Attempts Log', 'dologin' ); ?></h3>
+<div class="wrap dologin-settings">
+	<h3><?php echo __( 'Login Attempts Log', 'dologin' ); ?></h3>
 
-<table class="wp-list-table widefat striped">
-	<tr>
-		<th>#</th>
-		<th><?php echo __( 'Date', 'dologin' ); ?></th>
-		<th><?php echo __( 'IP', 'dologin' ); ?></th>
-		<th><?php echo __( 'GeoLocation', 'dologin' ); ?></th>
-		<th><?php echo __( 'Login As', 'dologin' ); ?></th>
-		<th><?php echo __( 'Gateway', 'dologin' ); ?></th>
-	</tr>
-	<?php foreach ( $this->log() as $v ) : ?>
+	<table class="wp-list-table widefat striped">
+		<thead>
 		<tr>
-			<td><?php echo $v->id ; ?></td>
-			<td><?php echo date( 'm/d/Y H:i:s', $v->dateline ); ?></td>
-			<td><?php echo $v->ip ; ?></td>
-			<td><?php echo $v->ip_geo ; ?></td>
-			<td><?php echo $v->username ; ?></td>
-			<td><?php echo $v->gateway ; ?></td>
+			<th>#</th>
+			<th><?php echo __( 'Date', 'dologin' ); ?></th>
+			<th><?php echo __( 'IP', 'dologin' ); ?></th>
+			<th><?php echo __( 'GeoLocation', 'dologin' ); ?></th>
+			<th><?php echo __( 'Login As', 'dologin' ); ?></th>
+			<th><?php echo __( 'Gateway', 'dologin' ); ?></th>
 		</tr>
-	<?php endforeach; ?>
-</table>
-
+		</thead>
+		<tbody>
+		<?php foreach ( $this->log() as $v ) : ?>
+			<tr>
+				<td><?php echo $v->id ; ?></td>
+				<td><?php echo date( 'm/d/Y H:i:s', $v->dateline ); ?></td>
+				<td><?php echo $v->ip ; ?></td>
+				<td><?php echo $v->ip_geo ; ?></td>
+				<td><?php echo $v->username ; ?></td>
+				<td><?php echo $v->gateway ; ?></td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+</div>
 
