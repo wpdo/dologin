@@ -89,4 +89,18 @@ class Util extends Instance
 		Data::get_instance()->del_tables();
 	}
 
+	/**
+	 * Activation redirect
+	 *
+	 * @since  1.1.2
+	 * @access public
+	 */
+	// public static function activation_redirect( $plugin )
+	// {
+	// 	if( $plugin == plugin_basename( __FILE__ ) ) {
+	// 		wp_redirect( menu_page_url( 'dologin', 0 ) );
+	// 		exit;
+	// 	}
+	// }
+
 }

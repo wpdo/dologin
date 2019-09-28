@@ -3,7 +3,7 @@ Contributors: WPDO
 Tags: Login security, GeoLocation login limit, limit login attempts
 Requires at least: 4.0
 Tested up to: 5.2
-Stable tag: 1.1.1
+Stable tag: 1.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -11,9 +11,17 @@ GeoLocation (Continent/Country/City) or IP range to limit login attempts. Suppor
 
 == Description ==
 
-GeoLocation (Continent/Country/City) or IP range to limit login attempts. Support Whitelist and Blacklist. Will have free text SMS message passcode for 2nd step verification support soon.
+Limit the number of login attempts through both the login and the auth cookies.
+
+GeoLocation (Continent/Country/City) or IP range to limit login attempts.
+
+Support Whitelist and Blacklist.
+
+Will have free text SMS message passcode for 2nd step verification support soon.
 
 GDPR compliant. With this feature turned on, all logged IPs get obfuscated (md5-hashed).
+
+*XMLRPC* gateway protection.
 
 = How GeoLocation works =
 
@@ -23,6 +31,8 @@ When visitors hit the login page, this plugin will lookup the Geolocation info f
 
 The online IP lookup service is provided by https://www.doapi.us. The provider's privacy policy is https://www.doapi.us/privacy.
 
+Based on the original code from Limit Login Attemps plugin and Limit Login Attemps Reloaded plugin.
+
 == Screenshots ==
 
 1. Plugin Settings
@@ -31,6 +41,9 @@ The online IP lookup service is provided by https://www.doapi.us. The provider's
 4. Login Page (Blacklist blocked)
 
 == Changelog ==
+
+= 1.2 - Sep 28 2019 =
+* 🍀 XMLRPC protection.
 
 = 1.1.1 - Sep 28 2019 =
 * 🐞 Auto upgrade can now check latest version correctly.

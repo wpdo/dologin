@@ -36,5 +36,6 @@ class Core extends Instance
 
 		register_deactivation_hook( DOLOGIN_DIR . 'dologin.php', __NAMESPACE__ . '\Util::deactivate' ) ;
 		register_uninstall_hook( DOLOGIN_DIR . 'dologin.php', __NAMESPACE__ . '\Util::uninstall' ) ;
+		// add_action( 'activated_plugin', __NAMESPACE__ . '\Util::activation_redirect' );
 	}
 }
