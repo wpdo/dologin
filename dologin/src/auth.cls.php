@@ -73,7 +73,13 @@ class Auth extends Instance
 		global $wpdb;
 
 		$q = 'SELECT COUNT(*) FROM ' . Data::tb_failure() . ' WHERE ip = %s AND dateline > %s ';
-		$err_count = $wpdb->get_var( $wpdb->prepare( $q, array( IP::me(), time() - Conf::val( 'duration' ) * 60 ) ) );
+
+		$ip = IP::me();
+		if ( Conf::val( 'gdpr' ) ) {
+			$ip = md5( $ip );
+		}
+
+		$err_count = $wpdb->get_var( $wpdb->prepare( $q, array( $ip, time() - Conf::val( 'duration' ) * 60 ) ) );
 
 		if ( ! $err_count ) {
 			return false;
@@ -157,6 +163,11 @@ class Auth extends Instance
 			$ip_geo[] = $k . ':' . $v;
 		}
 		$ip_geo = implode( ', ', $ip_geo );
+
+		// GDPR compliance
+		if ( Conf::val( 'gdpr' ) ) {
+			$ip = md5( $ip );
+		}
 
 		// Parse gateway
 		$gateway = 'WP Login';

@@ -12,9 +12,16 @@ class Admin extends Instance
 {
 	protected static $_instance;
 
+	/**
+	 * Init admin
+	 *
+	 * @since  1.0
+	 * @access public
+	 */
 	public function init()
 	{
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+		add_filter( 'plugin_action_links_dologin/dologin.php', array( $this, 'add_plugin_links' ) );
 	}
 
 	/**
@@ -25,7 +32,20 @@ class Admin extends Instance
 	 */
 	public function admin_menu()
 	{
-		add_options_page( 'Login Security', 'Login Security', 'manage_options', 'dologin', array( $this, 'setting_page' ) );
+		add_options_page( 'DoLogin Security', 'DoLogin Security', 'manage_options', 'dologin', array( $this, 'setting_page' ) );
+	}
+
+	/**
+	 * Plugin link
+	 *
+	 * @since  1.1
+	 * @access public
+	 */
+	public function add_plugin_links( $links )
+	{
+		$links[] = '<a href="' . menu_page_url( 'dologin', 0 ) . '">' . __( 'Settings', 'dologin' ) . '</a>';
+
+		return $links;
 	}
 
 	/**
@@ -40,14 +60,22 @@ class Admin extends Instance
 
 		if ( ! empty( $_POST ) ) {
 			check_admin_referer( 'dologin' );
+
 			// Save options
-			$list = array(
-				'max_retries'		=> $_POST[ 'max_retries' ],
-				'lockout_duration'	=> $_POST[ 'lockout_duration' ],
-				'sms'				=> $_POST[ 'sms' ],
-				'whitelist'			=> $this->_sanitize_list( $_POST[ 'whitelist' ] ),
-				'blacklist'			=> $this->_sanitize_list( $_POST[ 'blacklist' ] ),
-			) ;
+			$list = array() ;
+
+			foreach ( Conf::get_instance()->get_options() as $id => $v ) {
+				if ( $id == '_ver' ) {
+					continue;
+				}
+
+				$list[ $id ] = ! empty( $_POST[ $id ] ) ? $_POST[ $id ] : false ;
+			}
+
+			// Special handler for list
+			$list[ 'whitelist' ] = $this->_sanitize_list( $_POST[ 'whitelist' ] );
+			$list[ 'blacklist' ] = $this->_sanitize_list( $_POST[ 'blacklist' ] );
+
 			foreach ( $list as $id => $v ) {
 				Conf::update( $id, $v );
 			}

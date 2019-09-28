@@ -31,5 +31,9 @@ class Core extends Instance
 		Auth::get_instance()->init();
 
 		REST::get_instance()->init();
+
+		Util::get_instance()->init();
+
+		register_uninstall_hook( DOLOGIN_DIR . 'dologin.php', __NAMESPACE__ . '\Util::uninstall' ) ;
 	}
 }

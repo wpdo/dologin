@@ -3,7 +3,7 @@
  * Plugin Name:       Limit Login Attempts DoLogin
  * Plugin URI:        https://github.com/wpdo/dologin
  * Description:       GeoLocation (Continent/Country/City) or IP range to limit login attempts. Support Whitelist and Blacklist. Will have free text SMS message passcode for 2nd step verification support soon.
- * Version:           1.0
+ * Version:           1.1
  * Author:            WPDO
  * License:           GPLv3
  * License URI:       http://www.gnu.org/licenses/gpl.html
@@ -30,7 +30,7 @@ if ( defined( 'DOLOGIN_V' ) ) {
 	return;
 }
 
-define( 'DOLOGIN_V', '1.0' );
+define( 'DOLOGIN_V', '1.1' );
 
 ! defined( 'DOLOGIN_DIR' ) && define( 'DOLOGIN_DIR', dirname( __FILE__ ) . '/' );// Full absolute path '/usr/local/***/wp-content/plugins/dologin/' or MU
 

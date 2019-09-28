@@ -15,9 +15,11 @@ class Conf extends Instance
 	private $_options = array();
 
 	protected static $_default_options = array(
-		'_ver'				=> Core::VER,
+		'_ver'				=> '',
 		'max_retries'		=> 4,
 		'duration'			=> 20,
+		'auto_upgrade'		=> true,
+		'gdpr'				=> false,
 		'sms'				=> false,
 		'whitelist'			=> array(),
 		'blacklist'			=> array(),
@@ -35,16 +37,35 @@ class Conf extends Instance
 	 */
 	public function init()
 	{
+		// Load all options
 		$options = array();
 		foreach ( self::$_default_options as $k => $v ) {
-			$options[ $k ] = self::get_option( $k, $v );
+			$options[ $k ] = $this->_get_option( $k, $v );
 		}
 
 		$this->_options = $options;
+
+		// Update options if not exists
+		! defined( 'DOLOGIN_CUR_V' ) && define( 'DOLOGIN_CUR_V', $this->_options[ '_ver' ] ) ;
+
+		if ( ! DOLOGIN_CUR_V || DOLOGIN_CUR_V != Core::VER ) {
+			if ( ! DOLOGIN_CUR_V ) {
+				Util::version_check( 'new' );
+			}
+			else {
+				Util::version_check( 'upgrade' );
+			}
+
+			foreach ( self::$_default_options as $k => $v ) {
+				add_option( 'dologin.' . $k, $v );
+			}
+
+			self::update( '_ver', Core::VER );
+		}
 	}
 
 	/**
-	 * Get option of dologin
+	 * Get one current option
 	 *
 	 * @since  1.0
 	 * @access public
@@ -59,14 +80,24 @@ class Conf extends Instance
 		return null;
 	}
 
+	/**
+	 * Get all options
+	 *
+	 * @since  1.1
+	 * @access private
+	 */
+	public function get_options()
+	{
+		return $this->_options;
+	}
 
 	/**
-	 * Get option of dologin
+	 * Get option from DB
 	 *
 	 * @since  1.0
-	 * @access public
+	 * @access private
 	 */
-	public static function get_option( $id, $default_v = false )
+	private function _get_option( $id, $default_v = false )
 	{
 		return get_option( 'dologin.' . $id, $default_v );
 	}
@@ -98,6 +129,10 @@ class Conf extends Instance
 		}
 
 		update_option( 'dologin.' . $id, $data );
+
+		// Change current setting
+		self::get_instance()->_options[ $id ] = $data;
+
 	}
 
 }

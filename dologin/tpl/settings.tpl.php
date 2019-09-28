@@ -17,7 +17,7 @@ defined( 'WPINC' ) || exit;
 	}
 </style>
 <div class="wrap login-security-settings">
-	<h2><?php echo __( 'Login Security Settings', 'dologin' ); ?></h2>
+	<h2><?php echo __( 'DoLogin Security Settings', 'dologin' ); ?></h2>
 
 	<form method="post" action="<?php menu_page_url( 'dologin' ); ?>" class="dologin-relative">
 	<?php wp_nonce_field( 'dologin' ); ?>
@@ -30,6 +30,16 @@ defined( 'WPINC' ) || exit;
 
 				<p><input type="text" size="3" maxlength="4" name="duration" value="<?php echo Conf::val( 'duration' ); ?>" /> <?php echo __( 'minutes lockout', 'dologin' ); ?></p>
 				<p class="description"><?php echo sprintf( __( 'If hit %1$s maximum retries in %2$s minutes, the login attempt from that IP will be temporarily disabled.', 'dologin' ), '<code>' . Conf::val( 'max_retries' ) . '</code>', '<code>' . Conf::val( 'duration' ) . '</code>' ); ?></p>
+			</td>
+		</tr>
+
+		<tr>
+			<th scope="row" valign="top"><?php echo __( 'GDPR Compliance', 'dologin' ); ?></th>
+			<td>
+				<p><label><input type="checkbox" name="gdpr" value="1" <?php echo Conf::val( 'gdpr' ) ? 'checked' : '' ; ?> /> <?php echo __( 'Enable', 'dologin' ); ?></label></p>
+				<p class="description">
+					<?php echo __( 'With this feature turned on, all logged IPs get obfuscated (md5-hashed).', 'dologin' ); ?>
+				</p>
 			</td>
 		</tr>
 
@@ -87,6 +97,17 @@ defined( 'WPINC' ) || exit;
 				</div>
 			</td>
 		</tr>
+
+		<tr>
+			<th scope="row" valign="top"><?php echo __( 'Auto Upgrade', 'dologin' ); ?></th>
+			<td>
+				<p><label><input type="checkbox" name="auto_upgrade" value="1" <?php echo Conf::val( 'auto_upgrade' ) ? 'checked' : '' ; ?> /> <?php echo __( 'Enable', 'dologin' ); ?></label></p>
+				<p class="description">
+					<?php echo __( 'Enable this option to get the latest features at the first moment.', 'dologin' ); ?>
+				</p>
+			</td>
+		</tr>
+
 	</table>
 
 	<p class="submit">
