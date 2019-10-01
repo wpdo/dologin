@@ -170,7 +170,7 @@ defined( 'WPINC' ) || exit;
 		<?php foreach ( $this->log() as $v ) : ?>
 			<tr>
 				<td><?php echo $v->id ; ?></td>
-				<td><?php echo date( 'm/d/Y H:i:s', $v->dateline ); ?></td>
+				<td><?php echo Util::readable_time( $v->dateline ); ?></td>
 				<td><?php echo $v->ip ; ?></td>
 				<td><?php echo $v->ip_geo ; ?></td>
 				<td><?php echo $v->username ; ?></td>
