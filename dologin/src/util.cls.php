@@ -71,6 +71,8 @@ class Util extends Instance
 	 */
 	public static function deactivate()
 	{
+		delete_transient( 'dologin_activation_redirect' );
+
 		self::version_check( 'deactivate' ) ;
 
 		Data::get_instance()->del_tables();
@@ -92,15 +94,12 @@ class Util extends Instance
 	/**
 	 * Activation redirect
 	 *
-	 * @since  1.1.2
+	 * @since  1.2.2
 	 * @access public
 	 */
-	// public static function activation_redirect( $plugin )
-	// {
-	// 	if( $plugin == plugin_basename( __FILE__ ) ) {
-	// 		wp_redirect( menu_page_url( 'dologin', 0 ) );
-	// 		exit;
-	// 	}
-	// }
+	public static function activate()
+	{
+		set_transient( 'dologin_activation_redirect', true, 30 );
+	}
 
 }

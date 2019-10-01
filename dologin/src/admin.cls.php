@@ -22,6 +22,7 @@ class Admin extends Instance
 	{
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_filter( 'plugin_action_links_dologin/dologin.php', array( $this, 'add_plugin_links' ) );
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
 	}
 
 	/**
@@ -33,6 +34,22 @@ class Admin extends Instance
 	public function admin_menu()
 	{
 		add_options_page( 'DoLogin Security', 'DoLogin Security', 'manage_options', 'dologin', array( $this, 'setting_page' ) );
+	}
+
+	/**
+	 * admin_init
+	 *
+	 * @since  1.2.2
+	 * @access public
+	 */
+	public function admin_init()
+	{
+		if ( get_transient( 'dologin_activation_redirect' ) ) {
+			delete_transient( 'dologin_activation_redirect' );
+			if ( ! is_network_admin() && ! isset( $_GET['activate-multi'] ) ) {
+				wp_safe_redirect( menu_page_url( 'dologin', 0 ) );
+			}
+		}
 	}
 
 	/**
