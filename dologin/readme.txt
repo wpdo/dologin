@@ -13,15 +13,15 @@ GeoLocation (Continent/Country/City) or IP range to limit login attempts. Suppor
 
 Limit the number of login attempts through both the login and the auth cookies.
 
-GeoLocation (Continent/Country/City) or IP range to limit login attempts.
+* Free text SMS message passcode for 2nd step verification support.
 
-Support Whitelist and Blacklist.
+* GeoLocation (Continent/Country/City) or IP range to limit login attempts.
 
-Will have free text SMS message passcode for 2nd step verification support soon.
+* Support Whitelist and Blacklist.
 
-GDPR compliant. With this feature turned on, all logged IPs get obfuscated (md5-hashed).
+* GDPR compliant. With this feature turned on, all logged IPs get obfuscated (md5-hashed).
 
-*XMLRPC* gateway protection.
+* XMLRPC gateway protection.
 
 = How GeoLocation works =
 
@@ -36,9 +36,10 @@ Based on the original code from Limit Login Attemps plugin and Limit Login Attem
 == Screenshots ==
 
 1. Plugin Settings
-2. Login Page (2 times left)
-3. Login Page (Too many failure)
-4. Login Page (Blacklist blocked)
+2. Login Page (After sent dynamic code to mobile text message)
+3. Login Page (2 times left)
+4. Login Page (Too many failure)
+5. Login Page (Blacklist blocked)
 
 == Changelog ==
 
