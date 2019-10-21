@@ -92,7 +92,7 @@ class SMS extends Instance
 		global $wpdb;
 
 		if ( ! Conf::val( 'sms' ) ) {
-			return REST::err( 'Not enable SMS Auth' );
+			return REST::ok( array( 'bypassed' => 1 ) );
 		}
 
 		if ( empty( $_POST[ 'user' ] ) || empty( $_POST[ 'pswd' ] ) ) {

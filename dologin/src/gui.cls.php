@@ -64,6 +64,10 @@ class GUI extends Instance
 
 		$this->enqueue_style();
 
+		if ( ! Conf::val( 'sms' ) ) {
+			return;
+		}
+
 		wp_register_script( 'dologin', DOLOGIN_PLUGIN_URL . 'assets/login.js', array( 'jquery' ), Core::VER, false );
 
 		$localize_data = array();
