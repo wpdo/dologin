@@ -44,15 +44,15 @@ $current_user_phone = SMS::get_instance()->current_user_phone();
 				<p><label><input type="checkbox" name="sms" value="1" <?php echo Conf::val( 'sms' ) ? 'checked' : '' ; ?> /> <?php echo __( 'Enable Two Step SMS Auth', 'dologin' ); ?></label></p>
 				<p class="description">
 					<?php echo __( 'Verify text code for each login attempt.', 'dologin' ); ?>
-					<?php echo __( 'Users need to setup the Phone Number in their profile.', 'dologin' ); ?>
-					<?php echo __( 'Phone numbers need to specify the coutry calling codes.', 'dologin' ); ?>
+					<?php echo __( 'Users need to setup the Dologin Phone number in their profile.', 'dologin' ); ?>
+					<?php echo __( 'The phone number need to specify the coutry calling codes.', 'dologin' ); ?>
 					<?php echo sprintf( __( 'Text message is free sent by API from %s.', 'dologin' ), '<a href="https://www.doapi.us" target="_blank">DoAPI.us</a>' ); ?>
 				</p>
 
 				<p><label><input type="checkbox" name="sms_force" value="1" <?php echo Conf::val( 'sms_force' ) ? 'checked' : '' ; ?> /> <?php echo __( 'Force SMS Code', 'dologin' ); ?></label></p>
 				<p class="description">
 					<?php echo __( 'If enabled this, any user without phone set in profile will not be able to login.', 'dologin' ); ?>
-					<?php if ( ! $current_user_phone ) echo '<div class="dologin-warning-h3">' . __( 'You need to setup your phone number before enabling this setting to avoid yourself being blocked from next time login.', 'dologin' ) . '</div>'; ?>
+					<?php if ( ! $current_user_phone ) echo '<div class="dologin-warning-h3">' . __( 'You need to setup your Dologin Phone number before enabling this setting to avoid yourself being blocked from next time login.', 'dologin' ) . '</div>'; ?>
 				</p>
 			</td>
 		</tr>

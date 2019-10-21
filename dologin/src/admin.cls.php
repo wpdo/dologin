@@ -68,7 +68,7 @@ class Admin extends Instance
 	public function user_contactmethods( $contactmethods )
 	{
 		if ( ! array_key_exists( 'phone_number', $contactmethods ) ) {
-			$contactmethods[ 'phone_number' ] = 'Phone Number';
+			$contactmethods[ 'phone_number' ] = 'Dologin Phone';
 		}
 		return $contactmethods;
 	}
@@ -76,19 +76,21 @@ class Admin extends Instance
 	public function manage_users_columns( $column )
 	{
 		if ( ! array_key_exists( 'phone_number', $column ) ) {
-			$column[ 'phone_number' ] = 'Phone';
+			$column[ 'phone_number' ] = 'Dologin Phone';
 		}
 		return $column;
 	}
 
 	public function manage_users_custom_column( $val, $column_name, $user_id )
 	{
-		switch ( $column_name ) {
-			case 'phone_number' :
-				return get_the_author_meta( 'phone_number', $user_id );
-
-			default:;
+		if ( $column_name == 'phone_number' ) {
+			$val = substr( get_the_author_meta( 'phone_number', $user_id ), -4 );
+			if ( $val ) {
+				$val = '***' . $val;
+			}
+			return $val;
 		}
+
 		return $val;
 	}
 

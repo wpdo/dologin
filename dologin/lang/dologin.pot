@@ -1,10 +1,10 @@
-# Copyright (C) 2019 Limit Login Attempts DoLogin
-# This file is distributed under the same license as the Limit Login Attempts DoLogin package.
+# Copyright (C) 2019 DoLogin Security
+# This file is distributed under the same license as the DoLogin Security package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Limit Login Attempts DoLogin 1.1\n"
+"Project-Id-Version: DoLogin Security 1.3.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dologin\n"
-"POT-Creation-Date: 2019-09-28 05:19:00+00:00\n"
+"POT-Creation-Date: 2019-10-21 21:31:35+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,27 +12,27 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: src/admin.cls.php:46
+#: src/admin.cls.php:105
 msgid "Settings"
 msgstr ""
 
-#: src/file.cls.php:111
+#: src/f.cls.php:111
 msgid "Folder does not exist: %s"
 msgstr ""
 
-#: src/file.cls.php:118
+#: src/f.cls.php:118
 msgid "Can not create folder: %1$s. Error: %2$s"
 msgstr ""
 
-#: src/file.cls.php:124
+#: src/f.cls.php:124
 msgid "Folder is not writable: %s."
 msgstr ""
 
-#: src/file.cls.php:130 src/file.cls.php:134
+#: src/f.cls.php:130 src/f.cls.php:134
 msgid "File %s is not writable."
 msgstr ""
 
-#: src/file.cls.php:141
+#: src/f.cls.php:141
 msgid "Failed to write to %s."
 msgstr ""
 
@@ -56,152 +56,186 @@ msgstr ""
 msgid "%s attempt(s) remaining."
 msgstr ""
 
+#: src/lang.cls.php:37
+msgid "Dynamic code is required."
+msgstr ""
+
 #: src/lang.cls.php:41
+msgid "Dynamic code is not correct."
+msgstr ""
+
+#. #-#-#-#-#  dologin.pot (DoLogin Security 1.3.3)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: src/lang.cls.php:49
 msgid "DoLogin Security"
 msgstr ""
 
-#: tpl/settings.tpl.php:33
+#: src/util.cls.php:125
+msgid "just now"
+msgstr ""
+
+#: src/util.cls.php:125
+msgid "right now"
+msgstr ""
+
+#: src/util.cls.php:127
+msgid " %s ago"
+msgstr ""
+
+#: tpl/settings.tpl.php:10
 msgid "DoLogin Security Settings"
 msgstr ""
 
-#: tpl/settings.tpl.php:45
+#: tpl/settings.tpl.php:22
 msgid "Lockout"
 msgstr ""
 
-#: tpl/settings.tpl.php:47
+#: tpl/settings.tpl.php:24
 msgid "Allowed retries"
 msgstr ""
 
-#: tpl/settings.tpl.php:49
+#: tpl/settings.tpl.php:26
 msgid "minutes lockout"
 msgstr ""
 
-#: tpl/settings.tpl.php:50
+#: tpl/settings.tpl.php:27
 msgid ""
 "If hit %1$s maximum retries in %2$s minutes, the login attempt from that IP "
 "will be temporarily disabled."
 msgstr ""
 
-#: tpl/settings.tpl.php:55
+#: tpl/settings.tpl.php:32
 msgid "GDPR Compliance"
 msgstr ""
 
-#: tpl/settings.tpl.php:57 tpl/settings.tpl.php:122
+#: tpl/settings.tpl.php:34 tpl/settings.tpl.php:106
 msgid "Enable"
 msgstr ""
 
-#: tpl/settings.tpl.php:59
+#: tpl/settings.tpl.php:36
 msgid ""
 "With this feature turned on, all logged IPs get obfuscated (md5-hashed)."
 msgstr ""
 
-#: tpl/settings.tpl.php:65
-msgid "Login Security"
+#: tpl/settings.tpl.php:42
+msgid "Two Factor Auth"
 msgstr ""
 
-#: tpl/settings.tpl.php:67
+#: tpl/settings.tpl.php:44
 msgid "Enable Two Step SMS Auth"
 msgstr ""
 
-#: tpl/settings.tpl.php:69
+#: tpl/settings.tpl.php:46
 msgid "Verify text code for each login attempt."
 msgstr ""
 
-#: tpl/settings.tpl.php:70
-msgid "Users need to setup Phone in their profile."
+#: tpl/settings.tpl.php:47
+msgid "Users need to setup the Dologin Phone number in their profile."
 msgstr ""
 
-#: tpl/settings.tpl.php:71
+#: tpl/settings.tpl.php:48
+msgid "The phone number need to specify the coutry calling codes."
+msgstr ""
+
+#: tpl/settings.tpl.php:49
 msgid "Text message is free sent by API from %s."
 msgstr ""
 
-#: tpl/settings.tpl.php:77 tpl/settings.tpl.php:113
+#: tpl/settings.tpl.php:52
+msgid "Force SMS Code"
+msgstr ""
+
+#: tpl/settings.tpl.php:54
+msgid ""
+"If enabled this, any user without phone set in profile will not be able to "
+"login."
+msgstr ""
+
+#: tpl/settings.tpl.php:55
+msgid ""
+"You need to setup your Dologin Phone number before enabling this setting to "
+"avoid yourself being blocked from next time login."
+msgstr ""
+
+#: tpl/settings.tpl.php:61 tpl/settings.tpl.php:97
 msgid "Whitelist"
 msgstr ""
 
-#: tpl/settings.tpl.php:84
+#: tpl/settings.tpl.php:68
 msgid "Format"
 msgstr ""
 
-#: tpl/settings.tpl.php:85
+#: tpl/settings.tpl.php:69
 msgid "Both prefix and value are case insensitive."
 msgstr ""
 
-#: tpl/settings.tpl.php:86
+#: tpl/settings.tpl.php:70
 msgid "Spaces around comma/colon are allowed."
 msgstr ""
 
-#: tpl/settings.tpl.php:87
+#: tpl/settings.tpl.php:71
 msgid "One rule set per line."
 msgstr ""
 
-#: tpl/settings.tpl.php:90
+#: tpl/settings.tpl.php:74
 msgid "Prefix list"
 msgstr ""
 
-#: tpl/settings.tpl.php:92
+#: tpl/settings.tpl.php:76
 msgid "IP prefix with colon is optional. IP value support wildcard (*)."
 msgstr ""
 
-#: tpl/settings.tpl.php:93 tpl/settings.tpl.php:94 tpl/settings.tpl.php:95
-#: tpl/settings.tpl.php:96
+#: tpl/settings.tpl.php:77 tpl/settings.tpl.php:78 tpl/settings.tpl.php:79
+#: tpl/settings.tpl.php:80
 msgid "Example"
 msgstr ""
 
-#: tpl/settings.tpl.php:94
+#: tpl/settings.tpl.php:78
 msgid "Dropped optional prefix"
 msgstr ""
 
-#: tpl/settings.tpl.php:98
+#: tpl/settings.tpl.php:82
 msgid "Get my GeoLocation data from"
 msgstr ""
 
-#: tpl/settings.tpl.php:106
+#: tpl/settings.tpl.php:90
 msgid "Blacklist"
 msgstr ""
 
-#: tpl/settings.tpl.php:113
+#: tpl/settings.tpl.php:97
 msgid "Same format as %s"
 msgstr ""
 
-#: tpl/settings.tpl.php:120
+#: tpl/settings.tpl.php:104
 msgid "Auto Upgrade"
 msgstr ""
 
-#: tpl/settings.tpl.php:124
+#: tpl/settings.tpl.php:108
 msgid "Enable this option to get the latest features at the first moment."
 msgstr ""
 
-#: tpl/settings.tpl.php:155
+#: tpl/settings.tpl.php:140
 msgid "Login Attempts Log"
 msgstr ""
 
-#: tpl/settings.tpl.php:160
+#: tpl/settings.tpl.php:146
 msgid "Date"
 msgstr ""
 
-#: tpl/settings.tpl.php:161
+#: tpl/settings.tpl.php:147
 msgid "IP"
 msgstr ""
 
-#: tpl/settings.tpl.php:162
+#: tpl/settings.tpl.php:148
 msgid "GeoLocation"
 msgstr ""
 
-#: tpl/settings.tpl.php:163
+#: tpl/settings.tpl.php:149
 msgid "Login As"
 msgstr ""
 
-#: tpl/settings.tpl.php:164
+#: tpl/settings.tpl.php:150
 msgid "Gateway"
-msgstr ""
-
-#. Plugin Name of the plugin/theme
-msgid "Limit Login Attempts DoLogin"
-msgstr ""
-
-#. Plugin URI of the plugin/theme
-msgid "https://github.com/wpdo/dologin"
 msgstr ""
 
 #. Description of the plugin/theme
