@@ -57,7 +57,7 @@
 	border-left: 4px solid red;
 	box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
 	margin: 5px 15px 2px;
-	padding: 12px 50px 12px 12px;
+	padding: 12px 12px 12px 50px;
 	position: relative;
 	max-width: 50%;
 }
