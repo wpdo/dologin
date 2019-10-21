@@ -3,7 +3,7 @@ Contributors: WPDO
 Tags: Login security, GeoLocation login limit, limit login attempts
 Requires at least: 4.0
 Tested up to: 5.2
-Stable tag: 1.3
+Stable tag: 1.3.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -41,6 +41,9 @@ Based on the original code from Limit Login Attemps plugin and Limit Login Attem
 4. Login Page (Blacklist blocked)
 
 == Changelog ==
+
+= 1.3.1 - Oct 20 2019 =
+* PHP Notice fix.
 
 = 1.3 - Oct 20 2019 =
 * 🍀 SMS login support.

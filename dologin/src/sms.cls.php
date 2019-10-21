@@ -22,7 +22,7 @@ class SMS extends Instance
 	public function current_user_phone()
 	{
 		$uid = get_current_user_id();
-		$phone = get_user_meta( $id, 'phone_number', true );
+		$phone = get_user_meta( $uid, 'phone_number', true );
 		return $phone;
 	}
 
