@@ -23,6 +23,9 @@ class Admin extends Instance
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_filter( 'plugin_action_links_dologin/dologin.php', array( $this, 'add_plugin_links' ) );
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
+
+		add_action( 'admin_enqueue_scripts', array( GUI::get_instance(), 'enqueue_style' ) ) ;
+
 	}
 
 	/**
@@ -50,6 +53,43 @@ class Admin extends Instance
 				wp_safe_redirect( menu_page_url( 'dologin', 0 ) );
 			}
 		}
+
+		// Register user phone column
+		add_filter( 'user_contactmethods', array( $this, 'user_contactmethods' ), 10, 1 );
+		add_filter( 'manage_users_columns', array( $this, 'manage_users_columns' ) );
+		add_filter( 'manage_users_custom_column', array( $this, 'manage_users_custom_column' ), 10, 3 );
+	}
+
+	/**
+	 * Add phone number col in user profile
+	 *
+	 * @since  1.3
+	 */
+	public function user_contactmethods( $contactmethods )
+	{
+		if ( ! array_key_exists( 'phone_number', $contactmethods ) ) {
+			$contactmethods[ 'phone_number' ] = 'Phone Number';
+		}
+		return $contactmethods;
+	}
+
+	public function manage_users_columns( $column )
+	{
+		if ( ! array_key_exists( 'phone_number', $column ) ) {
+			$column[ 'phone_number' ] = 'Phone';
+		}
+		return $column;
+	}
+
+	public function manage_users_custom_column( $val, $column_name, $user_id )
+	{
+		switch ( $column_name ) {
+			case 'phone_number' :
+				return get_the_author_meta( 'phone_number', $user_id );
+
+			default:;
+		}
+		return $val;
 	}
 
 	/**
@@ -73,7 +113,8 @@ class Admin extends Instance
 	 */
 	public function setting_page()
 	{
-		Data::get_instance()->create_tb_failure();
+		Data::get_instance()->tb_create( 'failure' );
+		Data::get_instance()->tb_create( 'sms' );
 
 		if ( ! empty( $_POST ) ) {
 			check_admin_referer( 'dologin' );
@@ -121,6 +162,18 @@ class Admin extends Instance
 	}
 
 	/**
+	 * Display sms log
+	 *
+	 * @since  1.3
+	 * @access public
+	 */
+	public function sms_log()
+	{
+		global $wpdb;
+		return $wpdb->get_results( 'SELECT * FROM ' . Data::get_instance()->tb( 'sms' ) . ' ORDER BY id DESC LIMIT 10' );
+	}
+
+	/**
 	 * Display failure log
 	 *
 	 * @since  1.1
@@ -129,6 +182,6 @@ class Admin extends Instance
 	public function log()
 	{
 		global $wpdb;
-		return $wpdb->get_results( 'SELECT * FROM ' . Data::tb_failure() . ' ORDER BY id DESC LIMIT 10' );
+		return $wpdb->get_results( 'SELECT * FROM ' . Data::get_instance()->tb( 'failure' ) . ' ORDER BY id DESC LIMIT 10' );
 	}
 }

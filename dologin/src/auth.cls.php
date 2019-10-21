@@ -13,7 +13,6 @@ class Auth extends Instance
 	protected static $_instance;
 
 	private $_visitor_geo_data = array();
-	private $_err_added = false;
 
 	/**
 	 * Init
@@ -24,8 +23,12 @@ class Auth extends Instance
 	public function init()
 	{
 		add_action( 'login_head', array( $this, 'login_head' ) );
-		add_action( 'login_message', array( $this, 'login_message' ) );
 		add_filter( 'authenticate', array( $this, 'authenticate' ), 2, 3 );
+
+		if ( Conf::val( 'sms' ) ) {
+			add_filter( 'authenticate', array( SMS::get_instance(), 'authenticate_sms' ), 30, 3 ); // Need to be after WP auth check
+		}
+
 		add_action( 'wp_login_failed', array( $this, 'wp_login_failed' ) );
 
 		// XMLRPC
@@ -35,8 +38,6 @@ class Auth extends Instance
 
 		// Add notices for XMLRPC request
 		add_filter( 'xmlrpc_login_error', array( $this, 'xmlrpc_error_msg' ) );
-
-
 	}
 
 	/**
@@ -49,7 +50,7 @@ class Auth extends Instance
 	{
 		global $error;
 
-		if ( $this->_err_added ) {
+		if ( defined( 'DOLOGIN_ERR' ) ) {
 			return;
 		}
 
@@ -73,23 +74,6 @@ class Auth extends Instance
 	}
 
 	/**
-	 * Login default display messages
-	 *
-	 * @since  1.1
-	 * @access public
-	 */
-	public function login_message( $msg )
-	{
-		if ( $this->_err_added ) {
-			return;
-		}
-
-		$msg .= '<div class="success">' . Lang::msg( 'under_protected' ) . '<img src="' . DOLOGIN_PLUGIN_URL . 'assets/shield.svg" style="max-width:50px;max-height:37px;float:right;"></div>';
-
-		return $msg;
-	}
-
-	/**
 	 * Check if has login error limit
 	 *
 	 * @since  1.0
@@ -99,7 +83,7 @@ class Auth extends Instance
 	{
 		global $wpdb;
 
-		$q = 'SELECT COUNT(*) FROM ' . Data::tb_failure() . ' WHERE ip = %s AND dateline > %s ';
+		$q = 'SELECT COUNT(*) FROM ' . Data::get_instance()->tb( 'failure' ) . ' WHERE ip = %s AND dateline > %s ';
 
 		$ip = IP::me();
 		if ( Conf::val( 'gdpr' ) ) {
@@ -151,22 +135,22 @@ class Auth extends Instance
 
 		if ( ! $in_whitelist ) {
 			$error->add( 'not_in_whitelist', Lang::msg( 'not_in_whitelist' ) );
-			$this->_err_added = true;
+			define( 'DOLOGIN_ERR', true );
 		}
 
 		if ( $this->try_blacklist() ) {
 			$error->add( 'in_blacklist', Lang::msg( 'in_blacklist' ) );
-			$this->_err_added = true;
+			define( 'DOLOGIN_ERR', true );
 		}
 
-		if ( ! $this->_err_added ) {
+		if ( ! defined( 'DOLOGIN_ERR' ) ) {
 			if ( $err_msg = $this->_has_login_err() ) {
 				$error->add( 'in_blacklist', $err_msg );
-				$this->_err_added = true;
+				define( 'DOLOGIN_ERR', true );
 			}
 		}
 
-		if ( $this->_err_added ) {
+		if ( defined( 'DOLOGIN_ERR' ) ) {
 			// bypass verifying user info
 			remove_filter( 'authenticate', 'wp_authenticate_username_password', 20 );
 			remove_filter( 'authenticate', 'wp_authenticate_email_password', 20 );
@@ -230,8 +214,6 @@ class Auth extends Instance
 	public function wp_login_failed( $user )
 	{
 		global $wpdb;
-		// create table
-		Data::get_instance()->create_tb_failure();
 
 		$ip = IP::me();
 
@@ -258,7 +240,7 @@ class Auth extends Instance
 			$gateway = 'XMLRPC';
 		}
 
-		$q = 'INSERT INTO ' . Data::tb_failure() . ' SET ip = %s, ip_geo = %s, username = %s, gateway = %s, dateline = %s' ;
+		$q = 'INSERT INTO ' . Data::get_instance()->tb( 'failure' ) . ' SET ip = %s, ip_geo = %s, username = %s, gateway = %s, dateline = %s' ;
 		$wpdb->query( $wpdb->prepare( $q, array( $ip, $ip_geo, $user, $gateway, time() ) ) );
 	}
 

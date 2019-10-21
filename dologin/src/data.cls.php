@@ -13,9 +13,7 @@ class Data extends Instance
 	protected static $_instance;
 
 	const TB_FAILURE = 'dologin_failure' ;
-
-	private $_charset_collate ;
-	private $_tb_failure ;
+	const TB_SMS = 'dologin_sms' ;
 
 	/**
 	 * Init
@@ -25,96 +23,134 @@ class Data extends Instance
 	 */
 	protected function __construct()
 	{
-		global $wpdb ;
-
-		$this->_charset_collate = $wpdb->get_charset_collate() ;
-
-		$this->_tb_failure = self::tb_failure() ;
 	}
 
 	/**
-	 * Get table failure
+	 * Get the table name
 	 *
-	 * @since  1.0
+	 * @since  1.3
 	 * @access public
 	 */
-	public static function tb_failure()
-	{
-		global $wpdb ;
-		return $wpdb->prefix . self::TB_FAILURE ;
-	}
-
-	/**
-	 * Check if table existed or not
-	 *
-	 * @since  1.0
-	 * @access public
-	 */
-	public static function tb_failure_exist()
+	public function tb( $tb )
 	{
 		global $wpdb ;
 
-		$instance = self::get_instance() ;
+		switch ( $tb ) {
+			case 'failure':
+				return $wpdb->prefix . self::TB_FAILURE;
+				break;
 
-		return $wpdb->get_var( "SHOW TABLES LIKE '$instance->_tb_failure'" ) ;
-	}
+			case 'sms':
+				return $wpdb->prefix . self::TB_SMS;
+				break;
 
-	/**
-	 * Create table failure
-	 *
-	 * @since  1.0
-	 * @access public
-	 */
-	public function create_tb_failure()
-	{
-		if ( defined( __NAMESPACE__ . '_DID_' . __FUNCTION__ ) ) {
-			return;
-		}
-		define( __NAMESPACE__ . '_DID_' . __FUNCTION__, true );
-
-		global $wpdb;
-
-		// Check if table exists first
-		if ( self::tb_failure_exist() ) {
-			return;
+			default:
+				break;
 		}
 
-		$sql = sprintf(
-			'CREATE TABLE IF NOT EXISTS `%1$s` (' . $this->_tb_structure( 'failure' ) . ') %2$s;',
-			$this->_tb_failure,
-			$this->_charset_collate
-		);
+	}
 
-		$res = $wpdb->query( $sql );
+	/**
+	 * Check if one table exists or not
+	 *
+	 * @since  1.3
+	 * @access public
+	 */
+	public function tb_exist( $tb )
+	{
+		global $wpdb ;
+		return $wpdb->get_var( 'SHOW TABLES LIKE "' . $this->tb( $tb ) . '"' ) ;
 	}
 
 	/**
 	 * Get data structure of one table
 	 *
-	 * @since  1.0
+	 * @since  1.3
 	 * @access private
 	 */
 	private function _tb_structure( $tb )
 	{
-		return File::read( DOLOGIN_DIR . 'src/data_structure/' . $tb . '.sql' ) ;
+		return f::read( DOLOGIN_DIR . 'src/data_structure/' . $tb . '.sql' ) ;
+	}
+
+	/**
+	 * Create img optm table and sync data from wp_postmeta
+	 *
+	 * @since  1.3
+	 * @access public
+	 */
+	public function tb_create( $tb )
+	{
+		global $wpdb;
+
+		function_exists( 'debug2' ) && debug2( '[Data] Checking table ' . $tb );
+
+		// Check if table exists first
+		if ( $this->tb_exist( $tb ) ) {
+			function_exists( 'debug2' ) && debug2( '[Data] Existed' );
+			return;
+		}
+
+		function_exists( 'debug' ) && debug( '[Data] Creating ' . $tb );
+
+		$sql = sprintf(
+			'CREATE TABLE IF NOT EXISTS `%1$s` (' . $this->_tb_structure( $tb ) . ') %2$s;',
+			$this->tb( $tb ),
+			$wpdb->get_charset_collate() // 'DEFAULT CHARSET=utf8'
+		);
+
+		$res = $wpdb->query( $sql );
+		if ( $res !== true ) {
+			function_exists( 'debug' ) && debug( '[Data] Warning! Creating table failed!', $sql );
+		}
+	}
+
+	/**
+	 * Drop table
+	 *
+	 * @since  1.3
+	 * @access public
+	 */
+	public function tb_del( $tb )
+	{
+		global $wpdb ;
+
+		if ( ! $this->tb_exist( $tb ) ) {
+			return ;
+		}
+
+		function_exists( 'debug' ) && debug( '[Data] Deleting table ' . $tb ) ;
+
+		$q = 'DROP TABLE IF EXISTS ' . $this->tb( $tb ) ;
+		$wpdb->query( $q ) ;
+	}
+
+	/**
+	 * Create all tables
+	 *
+	 * @since  1.3
+	 * @access public
+	 */
+	public function tables_create()
+	{
+		global $wpdb ;
+
+		$this->tb_create( 'failure' );
+		$this->tb_create( 'sms' );
 	}
 
 	/**
 	 * Drop generated tables
 	 *
-	 * @since  1.1
+	 * @since  1.3
 	 * @access public
 	 */
-	public function del_tables()
+	public function tables_del()
 	{
 		global $wpdb ;
 
-		if ( self::tb_failure_exist() ) {
-
-			$q = "DROP TABLE IF EXISTS $this->_tb_failure" ;
-			$wpdb->query( $q ) ;
-		}
-
+		$this->tb_del( 'failure' );
+		$this->tb_del( 'sms' );
 	}
 
 

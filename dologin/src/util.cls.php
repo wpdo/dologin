@@ -45,6 +45,19 @@ class Util extends Instance
 	}
 
 	/**
+	 * Check if is login page or not
+	 *
+	 * @since  1.3
+	 * @access public
+	 */
+	public static function is_login_page()
+	{
+		$is_login_page = in_array( $GLOBALS[ 'pagenow' ], array( 'wp-login.php', 'wp-register.php' ), true );
+
+		return apply_filters( 'dologin_is_login_page', $is_login_page ) ;
+	}
+
+	/**
 	 * Version check
 	 *
 	 * @since 1.1
@@ -127,7 +140,7 @@ class Util extends Instance
 
 		self::version_check( 'deactivate' ) ;
 
-		Data::get_instance()->del_tables();
+		Data::get_instance()->tables_del();
 	}
 
 	/**
@@ -140,7 +153,7 @@ class Util extends Instance
 	{
 		self::version_check( 'uninstall' ) ;
 
-		Data::get_instance()->del_tables();
+		Data::get_instance()->tables_del();
 	}
 
 	/**
@@ -152,6 +165,7 @@ class Util extends Instance
 	public static function activate()
 	{
 		set_transient( 'dologin_activation_redirect', true, 30 );
+		Data::get_instance()->tables_create();
 	}
 
 }

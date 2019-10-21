@@ -30,6 +30,8 @@ class Core extends Instance
 
 		Auth::get_instance()->init();
 
+		GUI::get_instance()->init();
+
 		REST::get_instance()->init();
 
 		Util::get_instance()->init();

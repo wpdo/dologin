@@ -3,32 +3,9 @@ namespace dologin;
 
 defined( 'WPINC' ) || exit;
 
+$current_user_phone = SMS::get_instance()->current_user_phone();
+
 ?>
-<style>
-	.dologin-settings .field-col {
-		display: inline-block;
-		margin-right: 20px;
-	}
-
-	.dologin-settings .field-col-desc{
-		min-width: 540px;
-		max-width: calc(100% - 640px);
-		vertical-align: top;
-	}
-
-	.dologin-h2 {
-		display: inline-block;
-	}
-
-	.dologin-desc {
-		font-size: 12px;
-		font-weight: normal;
-		color: #7a919e;
-		margin: 10px 0;
-		line-height: 1.7;
-		max-width: 840px;
-	}
-</style>
 <div class="wrap dologin-settings">
 	<h2 class="dologin-h2"><?php echo __( 'DoLogin Security Settings', 'dologin' ); ?></h2>
 	<span class="dologin-desc">
@@ -61,14 +38,21 @@ defined( 'WPINC' ) || exit;
 			</td>
 		</tr>
 
-		<tr style="display: none;">
-			<th scope="row" valign="top"><?php echo __( 'Login Security', 'dologin' ); ?></th>
+		<tr>
+			<th scope="row" valign="top"><?php echo __( 'Two Factor Auth', 'dologin' ); ?></th>
 			<td>
 				<p><label><input type="checkbox" name="sms" value="1" <?php echo Conf::val( 'sms' ) ? 'checked' : '' ; ?> /> <?php echo __( 'Enable Two Step SMS Auth', 'dologin' ); ?></label></p>
 				<p class="description">
 					<?php echo __( 'Verify text code for each login attempt.', 'dologin' ); ?>
-					<?php echo __( 'Users need to setup Phone in their profile.', 'dologin' ); ?>
+					<?php echo __( 'Users need to setup the Phone Number in their profile.', 'dologin' ); ?>
+					<?php echo __( 'Phone numbers need to specify the coutry calling codes.', 'dologin' ); ?>
 					<?php echo sprintf( __( 'Text message is free sent by API from %s.', 'dologin' ), '<a href="https://www.doapi.us" target="_blank">DoAPI.us</a>' ); ?>
+				</p>
+
+				<p><label><input type="checkbox" name="sms_force" value="1" <?php echo Conf::val( 'sms_force' ) ? 'checked' : '' ; ?> /> <?php echo __( 'Force SMS Code', 'dologin' ); ?></label></p>
+				<p class="description">
+					<?php echo __( 'If enabled this, any user without phone set in profile will not be able to login.', 'dologin' ); ?>
+					<?php if ( ! $current_user_phone ) echo '<div class="dologin-warning-h3">' . __( 'You need to setup your phone number before enabling this setting to avoid yourself being blocked from next time login.', 'dologin' ) . '</div>'; ?>
 				</p>
 			</td>
 		</tr>

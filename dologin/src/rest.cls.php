@@ -35,6 +35,11 @@ class REST extends Instance
 			'methods' => 'GET',
 			'callback' => __CLASS__ . '::geoip',
 		) );
+
+		register_rest_route( 'dologin/v1', '/sms', array(
+			'methods' => 'POST',
+			'callback' => __CLASS__ . '::sms',
+		) );
 	}
 
 	/**
@@ -43,6 +48,31 @@ class REST extends Instance
 	public function geoip()
 	{
 		return IP::geo();
+	}
+
+	/**
+	 * Send SMS
+	 */
+	public function sms()
+	{
+		return SMS::get_instance()->send();
+	}
+
+	/**
+	 * Return content
+	 */
+	public static function ok( $data )
+	{
+		$data[ '_res' ] = 'ok';
+		return $data;
+	}
+
+	/**
+	 * Return error
+	 */
+	public static function err( $msg )
+	{
+		return array( '_res' => 'err', '_msg' => $msg );
 	}
 
 }

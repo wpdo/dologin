@@ -8,7 +8,7 @@ namespace dologin;
 
 defined( 'WPINC' ) || exit;
 
-class File
+class f
 {
 	/**
 	 *	Delete folder

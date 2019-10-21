@@ -21,6 +21,7 @@ class Conf extends Instance
 		'auto_upgrade'		=> true,
 		'gdpr'				=> false,
 		'sms'				=> false,
+		'sms_force'			=> false,
 		'whitelist'			=> array(),
 		'blacklist'			=> array(),
 	);

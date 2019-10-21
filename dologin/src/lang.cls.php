@@ -33,6 +33,14 @@ class Lang
 				$msg = sprintf( __( '%s attempt(s) remaining.', 'dologin' ), '<strong>' . $num . '</strong>' );
 				break;
 
+			case 'sms_missing' :
+				$msg = __( 'Dynamic code is required.', 'dologin' );
+				break;
+
+			case 'sms_wrong' :
+				$msg = __( 'Dynamic code is not correct.', 'dologin' );
+				break;
+
 			default:
 				$msg = 'unknown msg';
 				break;
