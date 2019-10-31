@@ -45,7 +45,7 @@ class REST extends Instance
 	/**
 	 * Get GeoIP info
 	 */
-	public function geoip()
+	public static function geoip()
 	{
 		return IP::geo();
 	}
@@ -53,7 +53,7 @@ class REST extends Instance
 	/**
 	 * Send SMS
 	 */
-	public function sms()
+	public static function sms()
 	{
 		return SMS::get_instance()->send();
 	}
