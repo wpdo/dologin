@@ -121,7 +121,7 @@ class SMS extends Instance
 		$code = s::rrand( 4, 1 );
 		$rid = s::rrand( 2, 1 );
 		$ip_info = ip::geo();
-		$info = "Dynamic Code:$code.(Tag:$rid) From: {$ip_info[country]}-{$ip_info[city]}.";
+		$info = "Dynamic Code:$code.(Tag:$rid) From: " . $ip_info[ 'country' ] . '-' . $ip_info[ 'city' ] '.';
 
 		$tb_sms = Data::get_instance()->tb( 'sms' );
 
