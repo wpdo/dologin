@@ -9,7 +9,7 @@ $current_user_phone = SMS::get_instance()->current_user_phone();
 <div class="wrap dologin-settings">
 	<h2 class="dologin-h2"><?php echo __( 'DoLogin Security Settings', 'dologin' ); ?></h2>
 	<span class="dologin-desc">
-		v<?php echo Core::VER ; ?>
+		v<?php echo Core::VER; ?>
 	</span>
 
 	<hr class="wp-header-end">
@@ -31,7 +31,7 @@ $current_user_phone = SMS::get_instance()->current_user_phone();
 		<tr>
 			<th scope="row" valign="top"><?php echo __( 'GDPR Compliance', 'dologin' ); ?></th>
 			<td>
-				<p><label><input type="checkbox" name="gdpr" value="1" <?php echo Conf::val( 'gdpr' ) ? 'checked' : '' ; ?> /> <?php echo __( 'Enable', 'dologin' ); ?></label></p>
+				<p><label><input type="checkbox" name="gdpr" value="1" <?php echo Conf::val( 'gdpr' ) ? 'checked' : ''; ?> /> <?php echo __( 'Enable', 'dologin' ); ?></label></p>
 				<p class="description">
 					<?php echo __( 'With this feature turned on, all logged IPs get obfuscated (md5-hashed).', 'dologin' ); ?>
 				</p>
@@ -41,7 +41,7 @@ $current_user_phone = SMS::get_instance()->current_user_phone();
 		<tr>
 			<th scope="row" valign="top"><?php echo __( 'Two Factor Auth', 'dologin' ); ?></th>
 			<td>
-				<p><label><input type="checkbox" name="sms" value="1" <?php echo Conf::val( 'sms' ) ? 'checked' : '' ; ?> /> <?php echo __( 'Enable Two Step SMS Auth', 'dologin' ); ?></label></p>
+				<p><label><input type="checkbox" name="sms" value="1" <?php echo Conf::val( 'sms' ) ? 'checked' : ''; ?> /> <?php echo __( 'Enable Two Step SMS Auth', 'dologin' ); ?></label></p>
 				<p class="description">
 					<?php echo __( 'Verify text code for each login attempt.', 'dologin' ); ?>
 					<?php echo __( 'Users need to setup the Dologin Phone number in their profile.', 'dologin' ); ?>
@@ -49,10 +49,11 @@ $current_user_phone = SMS::get_instance()->current_user_phone();
 					<?php echo sprintf( __( 'Text message is free sent by API from %s.', 'dologin' ), '<a href="https://www.doapi.us" target="_blank">DoAPI.us</a>' ); ?>
 				</p>
 
-				<p><label><input type="checkbox" name="sms_force" value="1" <?php echo Conf::val( 'sms_force' ) ? 'checked' : '' ; ?> /> <?php echo __( 'Force SMS Code', 'dologin' ); ?></label></p>
+				<p><label><input type="checkbox" name="sms_force" value="1" <?php echo Conf::val( 'sms_force' ) ? 'checked' : ''; ?> /> <?php echo __( 'Force SMS Code', 'dologin' ); ?></label></p>
 				<p class="description">
 					<?php echo __( 'If enabled this, any user without phone set in profile will not be able to login.', 'dologin' ); ?>
 					<?php if ( ! $current_user_phone ) echo '<div class="dologin-warning-h3">' . __( 'You need to setup your Dologin Phone number before enabling this setting to avoid yourself being blocked from next time login.', 'dologin' ) . '</div>'; ?>
+					<?php echo sprintf( __( '<a href="%s">Click here to set your Dologin Security phone number</a>.', 'dologin' ), 'profile.php' ); ?>
 				</p>
 			</td>
 		</tr>
@@ -61,7 +62,7 @@ $current_user_phone = SMS::get_instance()->current_user_phone();
 			<th scope="row" valign="top"><?php echo __( 'Whitelist', 'dologin' ); ?></th>
 			<td>
 				<div class="field-col">
-					<textarea name="whitelist" rows="15" cols="80"><?php echo esc_textarea( implode( "\n", Conf::val( 'whitelist' ) ) ); ?></textarea>
+					<textarea name="whitelist" rows="10" cols="80"><?php echo esc_textarea( implode( "\n", Conf::val( 'whitelist' ) ) ); ?></textarea>
 				</div>
 				<div class="field-col field-col-desc">
 					<p class="description">
@@ -90,7 +91,7 @@ $current_user_phone = SMS::get_instance()->current_user_phone();
 			<th scope="row" valign="top"><?php echo __( 'Blacklist', 'dologin' ); ?></th>
 			<td>
 				<div class="field-col">
-					<textarea name="blacklist" rows="15" cols="80"><?php echo esc_textarea( implode( "\n", Conf::val( 'blacklist' ) ) ); ?></textarea>
+					<textarea name="blacklist" rows="10" cols="80"><?php echo esc_textarea( implode( "\n", Conf::val( 'blacklist' ) ) ); ?></textarea>
 				</div>
 				<div class="field-col field-col-desc">
 					<p class="description">
@@ -103,7 +104,7 @@ $current_user_phone = SMS::get_instance()->current_user_phone();
 		<tr>
 			<th scope="row" valign="top"><?php echo __( 'Auto Upgrade', 'dologin' ); ?></th>
 			<td>
-				<p><label><input type="checkbox" name="auto_upgrade" value="1" <?php echo Conf::val( 'auto_upgrade' ) ? 'checked' : '' ; ?> /> <?php echo __( 'Enable', 'dologin' ); ?></label></p>
+				<p><label><input type="checkbox" name="auto_upgrade" value="1" <?php echo Conf::val( 'auto_upgrade' ) ? 'checked' : ''; ?> /> <?php echo __( 'Enable', 'dologin' ); ?></label></p>
 				<p class="description">
 					<?php echo __( 'Enable this option to get the latest features at the first moment.', 'dologin' ); ?>
 				</p>
@@ -129,12 +130,70 @@ $current_user_phone = SMS::get_instance()->current_user_phone();
 					$.each( data, function( k, v ) {
 						 html.push( k + ':' + v );
 					});
-					$( '#dologin_mygeolocation' ).html( html.join( ', ' ) ) ;
+					$( '#dologin_mygeolocation' ).html( html.join( ', ' ) );
 				}
-			} ) ;
+			} );
 		} );
 	} );
 </script>
+
+<div class="wrap dologin-settings">
+	<h3>
+		<?php echo __( 'Password Less Login', 'dologin' ); ?>
+
+		<a href="users.php" style="margin-left: 20px;"><?php echo __( 'Generate Links in Users List', 'dologin' ); ?></a>
+	</h3>
+
+	<p class="description"><?php echo __( 'Here you can generate login links and manage them.', 'dologin' ); ?></p>
+
+	<table class="wp-list-table widefat striped">
+		<thead>
+		<tr>
+			<th>#</th>
+			<th><?php echo __( 'Date', 'dologin' ); ?></th>
+			<th><?php echo __( 'User', 'dologin' ); ?></th>
+			<th><?php echo __( 'Link', 'dologin' ); ?></th>
+			<th><?php echo __( 'Count', 'dologin' ); ?></th>
+			<th><?php echo __( 'Last Used At', 'dologin' ); ?></th>
+			<th><?php echo __( 'Expired At', 'dologin' ); ?></th>
+			<th><?php echo __( 'One Time Usage', 'dologin' ); ?></th>
+			<th><?php echo __( 'Status', 'dologin' ); ?></th>
+		</tr>
+		</thead>
+		<tbody>
+		<?php foreach ( $this->pswdless_log() as $v ) : ?>
+			<tr>
+				<td><?php echo $v->id; ?></td>
+				<td><?php echo Util::readable_time( $v->dateline ); ?></td>
+				<td><?php echo $v->username; ?></td>
+				<td><?php echo $v->link; ?></td>
+				<td><?php echo $v->count; ?></td>
+				<td><?php echo $v->last_used_at ? Util::readable_time( $v->last_used_at ) : '-'; ?></td>
+				<td>
+					<?php echo $v->expired_at ? Util::readable_time( $v->expired_at - time(), 3600, false ) : '-'; ?>
+
+					<a href="<?php echo Util::build_url( Router::ACTION_PSWD, Pswd::TYPE_EXPIRE_7, false, null, array( 'dologin_id' => $v->id ) ); ?>" class="button button-primary"><?php echo __( 'Set Expiration to 7 Days', 'dologin' ); ?></a>
+				</td>
+				<td>
+					<?php echo $v->onetime ? '<font color="green">Yes</font>' : '<font color="red">No</font>'; ?>
+					<a href="<?php echo Util::build_url( Router::ACTION_PSWD, Pswd::TYPE_TOGGLE_ONETIME, false, null, array( 'dologin_id' => $v->id ) ); ?>" class="button button-primary"><?php echo __( 'Toggle Onetime', 'dologin' ); ?></a>
+				</td>
+				<td>
+					<?php
+					if ( $v->active == 1 ) :
+						echo '<font color="green">' . __( 'Active', 'dologin') . '</font>';
+					else :
+						echo '<font color="red">' . __( 'Disabled', 'dologin') . '</font>';
+					endif;
+					?>
+					<a href="<?php echo Util::build_url( Router::ACTION_PSWD, Pswd::TYPE_LOCK, false, null, array( 'dologin_id' => $v->id ) ); ?>" class="button button-primary"><?php echo __( 'Toggle Status', 'dologin' ); ?></a>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+
+</div>
 
 <div class="wrap dologin-settings">
 	<h3><?php echo __( 'Login Attempts Log', 'dologin' ); ?></h3>
@@ -153,15 +212,22 @@ $current_user_phone = SMS::get_instance()->current_user_phone();
 		<tbody>
 		<?php foreach ( $this->log() as $v ) : ?>
 			<tr>
-				<td><?php echo $v->id ; ?></td>
+				<td><?php echo $v->id; ?></td>
 				<td><?php echo Util::readable_time( $v->dateline ); ?></td>
-				<td><?php echo $v->ip ; ?></td>
-				<td><?php echo $v->ip_geo ; ?></td>
-				<td><?php echo $v->username ; ?></td>
-				<td><?php echo $v->gateway ; ?></td>
+				<td><?php echo $v->ip; ?></td>
+				<td><?php echo $v->ip_geo; ?></td>
+				<td><?php echo $v->username; ?></td>
+				<td><?php echo $v->gateway; ?></td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>
 	</table>
 </div>
 
+<h2 style="margin: 30px;">
+	<a href="https://wordpress.org/support/plugin/dologin/reviews/?rate=5#new-post" target="_blank"><?php echo __( 'Rate Us!' ); ?>
+		<span class="wporg-ratings rating-stars" style="text-decoration: none;">
+			<span class="dashicons dashicons-star-filled" style="color:#ffb900 !important;"></span><span class="dashicons dashicons-star-filled" style="color:#ffb900 !important;"></span><span class="dashicons dashicons-star-filled" style="color:#ffb900 !important;"></span><span class="dashicons dashicons-star-filled" style="color:#ffb900 !important;"></span><span class="dashicons dashicons-star-filled" style="color:#ffb900 !important;"></span>
+		</span>
+	</a>
+</h2>

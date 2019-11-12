@@ -1,13 +1,13 @@
 === DoLogin Security ===
 Contributors: WPDO
-Tags: Login security, GeoLocation login limit, limit login attempts
+Tags: Login security, GeoLocation login limit, limit login attempts, password less login
 Requires at least: 4.0
 Tested up to: 5.2
 Stable tag: 1.3.5
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
-GeoLocation (Continent/Country/City) or IP range to limit login attempts. Support Whitelist and Blacklist. Will have free text SMS message passcode for 2nd step verification support soon.
+Password less login. GeoLocation (Continent/Country/City) or IP range to limit login attempts. Support Whitelist and Blacklist. Will have free text SMS message passcode for 2nd step verification support soon.
 
 == Description ==
 
@@ -16,6 +16,8 @@ Limit the number of login attempts through both the login and the auth cookies.
 * Free text SMS message passcode for 2nd step verification support.
 
 * GeoLocation (Continent/Country/City) or IP range to limit login attempts.
+
+* Password less login link.
 
 * Support Whitelist and Blacklist.
 
@@ -42,6 +44,9 @@ Based on the original code from Limit Login Attemps plugin and Limit Login Attem
 5. Login Page (Blacklist blocked)
 
 == Changelog ==
+
+= 1.4 - Nov 12 2019 =
+* 🍀 Password less login link.
 
 = 1.3.5 - Oct 31 2019 =
 * SMS PHP Warning fix.

@@ -68,7 +68,7 @@ class Admin extends Instance
 	public function user_contactmethods( $contactmethods )
 	{
 		if ( ! array_key_exists( 'phone_number', $contactmethods ) ) {
-			$contactmethods[ 'phone_number' ] = 'Dologin Phone';
+			$contactmethods[ 'phone_number' ] = 'Dologin Security Phone';
 		}
 		return $contactmethods;
 	}
@@ -76,7 +76,7 @@ class Admin extends Instance
 	public function manage_users_columns( $column )
 	{
 		if ( ! array_key_exists( 'phone_number', $column ) ) {
-			$column[ 'phone_number' ] = 'Dologin Phone';
+			$column[ 'phone_number' ] = 'Dologin Security Phone';
 		}
 		return $column;
 	}
@@ -86,8 +86,12 @@ class Admin extends Instance
 		if ( $column_name == 'phone_number' ) {
 			$val = substr( get_the_author_meta( 'phone_number', $user_id ), -4 );
 			if ( $val ) {
-				$val = '***' . $val;
+				$val = '***' . $val . '<br>';
 			}
+
+			// Append gen link
+			$val .= '<a href="' . Util::build_url( Router::ACTION_PSWD, Pswd::TYPE_GEN, false, null, array( 'uid' => $user_id ) ) . '" class="button button-primary">' . __( 'Generate Login Link', 'dologin' ) . '</a>';
+
 			return $val;
 		}
 
@@ -117,6 +121,7 @@ class Admin extends Instance
 	{
 		Data::get_instance()->tb_create( 'failure' );
 		Data::get_instance()->tb_create( 'sms' );
+		Data::get_instance()->tb_create( 'pswdless' );
 
 		if ( ! empty( $_POST ) ) {
 			check_admin_referer( 'dologin' );
@@ -161,6 +166,26 @@ class Admin extends Instance
 		}
 
 		return array_filter( $list );
+	}
+
+	/**
+	 * Display pswdless
+	 *
+	 * @since  1.4
+	 * @access public
+	 */
+	public function pswdless_log()
+	{
+		global $wpdb;
+
+		$list = $wpdb->get_results( 'SELECT * FROM ' . Data::get_instance()->tb( 'pswdless' ) . ' ORDER BY id DESC' );
+		foreach ( $list as $k => $v ) {
+			$user_info = get_userdata( $v->user_id );
+			$list[ $k ]->username = $user_info->user_login;
+			$list[ $k ]->link = admin_url( '?dologin=' . $v->id . '.' . $v->hash );
+		}
+
+		return $list;
 	}
 
 	/**

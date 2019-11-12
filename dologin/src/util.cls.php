@@ -34,14 +34,98 @@ class Util extends Instance
 	public function auto_update( $update, $item )
 	{
 		if ( $item->slug == 'dologin' ) {
-			$auto_v = self::version_check( 'auto_update_plugin' ) ;
+			$auto_v = self::version_check( 'auto_update_plugin' );
 
 			if ( $auto_v && ! empty( $item->new_version ) && $auto_v === $item->new_version ) {
-				return true ;
+				return true;
 			}
 		}
 
 		return $update; // Else, use the normal API response to decide whether to update or not
+	}
+
+
+	/**
+	 * Builds an url with an action and a nonce.
+	 *
+	 * @since  1.4
+	 * @access public
+	 */
+	public static function build_url( $action, $type = false, $is_ajax = false, $page = null, $append_arr = null )
+	{
+		$prefix = '?';
+
+		if ( ! $is_ajax ) {
+			if ( $page ) {
+				// If use admin url
+				if ( $page === true ) {
+					$page = 'admin.php';
+				}
+				else {
+					if ( strpos( $page, '?' ) !== false ) {
+						$prefix = '&';
+					}
+				}
+				$combined = $page . $prefix . Router::ACTION . '=' . $action;
+			}
+			else {
+				// Current page rebuild URL
+				$params = $_GET;
+
+				if ( ! empty( $params ) ) {
+					if ( isset( $params[ 'DOLOGIN_ACTION' ] ) ) {
+						unset( $params[ 'DOLOGIN_ACTION' ] );
+					}
+					if ( isset( $params[ '_wpnonce' ] ) ) {
+						unset( $params[ '_wpnonce' ] );
+					}
+					if ( ! empty( $params ) ) {
+						$prefix .= http_build_query( $params ) . '&';
+					}
+				}
+				global $pagenow;
+				$combined = $pagenow . $prefix . Router::ACTION . '=' . $action;
+			}
+		}
+		else {
+			$combined = 'admin-ajax.php?action=litespeed_ajax&' . Router::ACTION . '=' . $action;
+		}
+
+		if ( is_network_admin() ) {
+			$prenonce = network_admin_url( $combined );
+		}
+		else {
+			$prenonce = admin_url( $combined );
+		}
+		$url = wp_nonce_url( $prenonce, $action, Router::NONCE );
+
+		if ( $type ) {
+			// Remove potential param `type` from url
+			$url = parse_url( htmlspecialchars_decode( $url ) );
+			parse_str( $url[ 'query' ], $query );
+
+			$built_arr = array_merge( $query, array( Router::TYPE => $type ) );
+			if ( $append_arr ) {
+				$built_arr = array_merge( $built_arr, $append_arr );
+			}
+			$url[ 'query' ] = http_build_query( $built_arr );
+			self::compatibility();
+			$url = http_build_url( $url );
+			$url = htmlspecialchars( $url, ENT_QUOTES, 'UTF-8' );
+		}
+
+		return $url;
+	}
+
+	/**
+	 * Improve compatibility to PHP old versions
+	 *
+	 * @since  1.2.2
+	 *
+	 */
+	public static function compatibility()
+	{
+		require_once DOLOGIN_DIR . 'lib/php-compatibility.func.php';
 	}
 
 	/**
@@ -54,7 +138,7 @@ class Util extends Instance
 	{
 		$is_login_page = in_array( $GLOBALS[ 'pagenow' ], array( 'wp-login.php', 'wp-register.php' ), true );
 
-		return apply_filters( 'dologin_is_login_page', $is_login_page ) ;
+		return apply_filters( 'dologin_is_login_page', $is_login_page );
 	}
 
 	/**
@@ -66,14 +150,14 @@ class Util extends Instance
 	public static function version_check( $tag )
 	{
 		// Check latest stable version allowed to upgrade
-		$url = 'https://doapi.us/compatible_list/dologin?v=' . Core::VER . '&v2=' . ( defined( 'DOLOGIN_CUR_V' ) ? DOLOGIN_CUR_V : '' ) . '&src=' . $tag ;
+		$url = 'https://doapi.us/compatible_list/dologin?v=' . Core::VER . '&v2=' . ( defined( 'DOLOGIN_CUR_V' ) ? DOLOGIN_CUR_V : '' ) . '&src=' . $tag;
 
-		$response = wp_remote_get( $url, array( 'timeout' => 15 ) ) ;
+		$response = wp_remote_get( $url, array( 'timeout' => 15 ) );
 		if ( ! is_array( $response ) || empty( $response[ 'body' ] ) ) {
-			return false ;
+			return false;
 		}
 
-		return $response[ 'body' ] ;
+		return $response[ 'body' ];
 	}
 
 	/**
@@ -138,7 +222,7 @@ class Util extends Instance
 	{
 		delete_transient( 'dologin_activation_redirect' );
 
-		self::version_check( 'deactivate' ) ;
+		self::version_check( 'deactivate' );
 
 		Data::get_instance()->tables_del();
 	}
@@ -151,7 +235,7 @@ class Util extends Instance
 	 */
 	public static function uninstall()
 	{
-		self::version_check( 'uninstall' ) ;
+		self::version_check( 'uninstall' );
 
 		Data::get_instance()->tables_del();
 	}
