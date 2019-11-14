@@ -60,7 +60,7 @@ class Pswdless extends Instance
 			exit( 'dologin_link_used' );
 		}
 
-		if ( $row->expired_at > time() ) {
+		if ( $row->expired_at < time() ) {
 			exit( 'dologin_link_expired' );
 		}
 
@@ -103,8 +103,8 @@ class Pswdless extends Instance
 			return;
 		}
 
-		$q = 'UPDATE `' . Data::get_instance()->tb( 'pswdless' ) . '` SET expired_at = %d WHERE id = %d';
-		$wpdb->query( $wpdb->prepare( $q, time() + 86400 * 7, $_GET[ 'dologin_id' ] ) );
+		$q = 'UPDATE `' . Data::get_instance()->tb( 'pswdless' ) . '` SET expired_at = GREATEST( expired_at, %d ) + 86400*7 WHERE id = %d';
+		$wpdb->query( $wpdb->prepare( $q, time(), $_GET[ 'dologin_id' ] ) );
 	}
 
 	/**
@@ -183,8 +183,8 @@ class Pswdless extends Instance
 
 		$hash = s::rrand( 32 );
 
-		$q = 'INSERT INTO `' . Data::get_instance()->tb( 'pswdless' ) . '` SET user_id = %d, hash = %s, dateline = %d, onetime = 1, active = 1, src = %s';
-		$wpdb->query( $wpdb->prepare( $q, array( $user_id, $hash, time(), $src ) ) );
+		$q = 'INSERT INTO `' . Data::get_instance()->tb( 'pswdless' ) . '` SET user_id = %d, hash = %s, dateline = %d, onetime = 1, active = 1, src = %s, expired_at = %d';
+		$wpdb->query( $wpdb->prepare( $q, array( $user_id, $hash, time(), $src, time() + 86400 * 7 ) ) );
 		$id = $wpdb->insert_id;
 
 		if ( $return_url ) {

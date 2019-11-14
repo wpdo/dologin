@@ -49,7 +49,7 @@ $current_user_phone = SMS::get_instance()->current_user_phone();
 					<?php echo sprintf( __( 'Text message is free sent by API from %s.', 'dologin' ), '<a href="https://www.doapi.us" target="_blank">DoAPI.us</a>' ); ?>
 				</p>
 
-				<p><label><input type="checkbox" name="sms_force" value="1" <?php echo Conf::val( 'sms_force' ) ? 'checked' : ''; ?> /> <?php echo __( 'Force SMS Code', 'dologin' ); ?></label></p>
+				<p><label><input type="checkbox" name="sms_force" value="1" <?php echo Conf::val( 'sms_force' ) ? 'checked' : ''; ?> /> <?php echo __( 'Force SMS Auth Validation', 'dologin' ); ?></label></p>
 				<p class="description">
 					<?php echo __( 'If enabled this, any user without phone set in profile will not be able to login.', 'dologin' ); ?>
 					<?php if ( ! $current_user_phone ) echo '<div class="dologin-warning-h3">' . __( 'You need to setup your Dologin Phone number before enabling this setting to avoid yourself being blocked from next time login.', 'dologin' ) . '</div>'; ?>
@@ -172,7 +172,7 @@ $current_user_phone = SMS::get_instance()->current_user_phone();
 				<td><?php echo $v->count; ?></td>
 				<td><?php echo $v->last_used_at ? Util::readable_time( $v->last_used_at ) : '-'; ?></td>
 				<td>
-					<?php echo $v->expired_at ? Util::readable_time( $v->expired_at - time(), 3600, false ) : '-'; ?>
+					<?php echo $v->expired_at > time() ? Util::readable_time( $v->expired_at - time(), 3600, false ) : '<font color="red">Expired</font>'; ?>
 
 					<a href="<?php echo Util::build_url( Router::ACTION_PSWD, Pswdless::TYPE_EXPIRE_7, false, null, array( 'dologin_id' => $v->id ) ); ?>" class="button button-primary"><?php echo __( '+7 Days', 'dologin' ); ?></a>
 				</td>
@@ -181,7 +181,7 @@ $current_user_phone = SMS::get_instance()->current_user_phone();
 					<a href="<?php echo Util::build_url( Router::ACTION_PSWD, Pswdless::TYPE_TOGGLE_ONETIME, false, null, array( 'dologin_id' => $v->id ) ); ?>"><span class="dashicons dashicons-controls-repeat"></span></a>
 				</td>
 				<td>
-					<a href="<?php echo Util::build_url( Router::ACTION_PSWD, Pswdless::TYPE_LOCK, false, null, array( 'dologin_id' => $v->id ) ); ?>"><?php echo $v->active ? '<span class="dashicons dashicons-lock"></span>' : '<span class="dashicons dashicons-unlock"></span>'; ?></a>
+					<a href="<?php echo Util::build_url( Router::ACTION_PSWD, Pswdless::TYPE_LOCK, false, null, array( 'dologin_id' => $v->id ) ); ?>"><?php echo $v->active ? '<span class="dashicons dashicons-unlock"></span>' : '<span class="dashicons dashicons-lock"></span>'; ?></a>
 					<?php
 					if ( $v->active == 1 ) :
 						echo '<font color="green">' . __( 'Active', 'dologin') . '</font>';
