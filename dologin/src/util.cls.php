@@ -248,7 +248,10 @@ class Util extends Instance
 	 */
 	public static function activate()
 	{
-		set_transient( 'dologin_activation_redirect', true, 30 );
+		if ( ! defined( 'SILENCE_INSTALL' ) ) {
+			set_transient( 'dologin_activation_redirect', true, 30 );
+		}
+
 		Data::get_instance()->tables_create();
 	}
 

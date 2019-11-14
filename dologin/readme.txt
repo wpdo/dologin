@@ -3,7 +3,7 @@ Contributors: WPDO
 Tags: Login security, GeoLocation login limit, limit login attempts, password less login
 Requires at least: 4.0
 Tested up to: 5.3
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -27,9 +27,11 @@ Limit the number of login attempts through both the login and the auth cookies.
 
 = API =
 
-Call the function `$link = function_exists( 'dologin_gen_link' ) ? dologin_gen_link( 'your plugin name or tag' ) : '';` to generate one password less login link for current user.
+* Call the function `$link = function_exists( 'dologin_gen_link' ) ? dologin_gen_link( 'your plugin name or tag' ) : '';` to generate one password less login link for current user.
 
 The generated one-time used link will be expired after 7 days.
+
+* Define const `SILENCE_INSTALL` to avoid redirecting to setting page after installtion.
 
 = How GeoLocation works =
 
@@ -50,6 +52,9 @@ Based on the original code from Limit Login Attemps plugin and Limit Login Attem
 5. Login Page (Blacklist blocked)
 
 == Changelog ==
+
+= 1.4.3 =
+* *API* Silent install mode to avoid redirecting to settings by defining const `SILENCE_INSTALL`
 
 = 1.4.2 =
 * *API* Generated link defaults to expire in 7 days.
