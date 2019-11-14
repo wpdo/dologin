@@ -39,7 +39,7 @@ class Router extends Instance
 		$action = Router::get_action();
 		switch ( $action ) {
 			case self::ACTION_PSWD:
-				Pswd::get_instance()->handler();
+				Pswdless::get_instance()->handler();
 				break;
 
 			default:

@@ -8,12 +8,13 @@ namespace dologin;
 
 defined( 'WPINC' ) || exit;
 
-class Pswd extends Instance
+class Pswdless extends Instance
 {
 	protected static $_instance;
 
 	const TYPE_GEN = 'gen';
 	const TYPE_LOCK = 'lock';
+	const TYPE_DEL = 'del';
 	const TYPE_TOGGLE_ONETIME = 'toggle_onetime';
 	const TYPE_EXPIRE_7 = 'expire_7';
 
@@ -141,26 +142,54 @@ class Pswd extends Instance
 	}
 
 	/**
+	 * Delete
+	 *
+	 * @since  1.4.1
+	 */
+	private function _del_link()
+	{
+		global $wpdb;
+
+		if ( empty( $_GET[ 'dologin_id' ] ) ) {
+			return;
+		}
+
+		$q = 'DELETE FROM `' . Data::get_instance()->tb( 'pswdless' ) . '` WHERE id = %d';
+		$wpdb->query( $wpdb->prepare( $q, $_GET[ 'dologin_id' ] ) );
+	}
+
+	/**
 	 * Generate link
 	 *
 	 * @since  1.4
+	 * @access public
 	 */
-	private function _gen_link()
+	public function gen_link( $src = false, $return_url = false )
 	{
 		global $wpdb;
 
 		Data::get_instance()->tb_create( 'pswdless' );
 
-		if ( empty( $_GET[ 'uid' ] ) ) {
+		$current_user = wp_get_current_user();
+
+		$user_id = ! empty( $_GET[ 'uid' ] ) ? $_GET[ 'uid' ] : $current_user->ID;
+		if ( ! $user_id ) {
 			return;
 		}
 
-		$user_id = $_GET[ 'uid' ];
+		if ( ! $src ) {
+			$src = $current_user->display_name;
+		}
 
 		$hash = s::rrand( 32 );
 
-		$q = 'INSERT INTO `' . Data::get_instance()->tb( 'pswdless' ) . '` SET user_id = %d, hash = %s, dateline = %d, onetime = 1, active = 1';
-		$wpdb->query( $wpdb->prepare( $q, array( $user_id, $hash, time() ) ) );
+		$q = 'INSERT INTO `' . Data::get_instance()->tb( 'pswdless' ) . '` SET user_id = %d, hash = %s, dateline = %d, onetime = 1, active = 1, src = %s';
+		$wpdb->query( $wpdb->prepare( $q, array( $user_id, $hash, time(), $src ) ) );
+		$id = $wpdb->insert_id;
+
+		if ( $return_url ) {
+			return admin_url( '?dologin=' . $id . '.' . $hash );
+		}
 
 		Router::redirect( admin_url( 'options-general.php?page=dologin' ) );
 	}
@@ -178,11 +207,15 @@ class Pswd extends Instance
 
 		switch ( $type ) {
 			case self::TYPE_GEN:
-				$instance->_gen_link();
+				$instance->gen_link();
 				break;
 
 			case self::TYPE_LOCK:
 				$instance->_lock_link();
+				break;
+
+			case self::TYPE_DEL:
+				$instance->_del_link();
 				break;
 
 			case self::TYPE_TOGGLE_ONETIME:

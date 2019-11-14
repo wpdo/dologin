@@ -38,7 +38,7 @@ class Core extends Instance
 
 		Router::get_instance()->init();
 
-		Pswd::get_instance()->init();
+		Pswdless::get_instance()->init();
 
 		register_activation_hook( DOLOGIN_DIR . 'dologin.php', __NAMESPACE__ . '\Util::activate' );
 		register_deactivation_hook( DOLOGIN_DIR . 'dologin.php', __NAMESPACE__ . '\Util::deactivate' ) ;

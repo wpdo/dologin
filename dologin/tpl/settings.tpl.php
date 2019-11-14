@@ -153,6 +153,7 @@ $current_user_phone = SMS::get_instance()->current_user_phone();
 			<th><?php echo __( 'Date', 'dologin' ); ?></th>
 			<th><?php echo __( 'User', 'dologin' ); ?></th>
 			<th><?php echo __( 'Link', 'dologin' ); ?></th>
+			<th><?php echo __( 'Created By', 'dologin' ); ?></th>
 			<th><?php echo __( 'Count', 'dologin' ); ?></th>
 			<th><?php echo __( 'Last Used At', 'dologin' ); ?></th>
 			<th><?php echo __( 'Expired At', 'dologin' ); ?></th>
@@ -167,18 +168,20 @@ $current_user_phone = SMS::get_instance()->current_user_phone();
 				<td><?php echo Util::readable_time( $v->dateline ); ?></td>
 				<td><?php echo $v->username; ?></td>
 				<td><?php echo $v->link; ?></td>
+				<td><?php echo $v->src; ?></td>
 				<td><?php echo $v->count; ?></td>
 				<td><?php echo $v->last_used_at ? Util::readable_time( $v->last_used_at ) : '-'; ?></td>
 				<td>
 					<?php echo $v->expired_at ? Util::readable_time( $v->expired_at - time(), 3600, false ) : '-'; ?>
 
-					<a href="<?php echo Util::build_url( Router::ACTION_PSWD, Pswd::TYPE_EXPIRE_7, false, null, array( 'dologin_id' => $v->id ) ); ?>" class="button button-primary"><?php echo __( 'Set Expiration to 7 Days', 'dologin' ); ?></a>
+					<a href="<?php echo Util::build_url( Router::ACTION_PSWD, Pswdless::TYPE_EXPIRE_7, false, null, array( 'dologin_id' => $v->id ) ); ?>" class="button button-primary"><?php echo __( '+7 Days', 'dologin' ); ?></a>
 				</td>
 				<td>
 					<?php echo $v->onetime ? '<font color="green">Yes</font>' : '<font color="red">No</font>'; ?>
-					<a href="<?php echo Util::build_url( Router::ACTION_PSWD, Pswd::TYPE_TOGGLE_ONETIME, false, null, array( 'dologin_id' => $v->id ) ); ?>" class="button button-primary"><?php echo __( 'Toggle Onetime', 'dologin' ); ?></a>
+					<a href="<?php echo Util::build_url( Router::ACTION_PSWD, Pswdless::TYPE_TOGGLE_ONETIME, false, null, array( 'dologin_id' => $v->id ) ); ?>"><span class="dashicons dashicons-controls-repeat"></span></a>
 				</td>
 				<td>
+					<a href="<?php echo Util::build_url( Router::ACTION_PSWD, Pswdless::TYPE_LOCK, false, null, array( 'dologin_id' => $v->id ) ); ?>"><?php echo $v->active ? '<span class="dashicons dashicons-lock"></span>' : '<span class="dashicons dashicons-unlock"></span>'; ?></a>
 					<?php
 					if ( $v->active == 1 ) :
 						echo '<font color="green">' . __( 'Active', 'dologin') . '</font>';
@@ -186,7 +189,7 @@ $current_user_phone = SMS::get_instance()->current_user_phone();
 						echo '<font color="red">' . __( 'Disabled', 'dologin') . '</font>';
 					endif;
 					?>
-					<a href="<?php echo Util::build_url( Router::ACTION_PSWD, Pswd::TYPE_LOCK, false, null, array( 'dologin_id' => $v->id ) ); ?>" class="button button-primary"><?php echo __( 'Toggle Status', 'dologin' ); ?></a>
+					<a href="<?php echo Util::build_url( Router::ACTION_PSWD, Pswdless::TYPE_DEL, false, null, array( 'dologin_id' => $v->id ) ); ?>" class="dologin-right"><span class="dashicons dashicons-dismiss"></span></a>
 				</td>
 			</tr>
 		<?php endforeach; ?>

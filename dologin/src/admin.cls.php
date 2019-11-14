@@ -90,7 +90,7 @@ class Admin extends Instance
 			}
 
 			// Append gen link
-			$val .= '<a href="' . Util::build_url( Router::ACTION_PSWD, Pswd::TYPE_GEN, false, null, array( 'uid' => $user_id ) ) . '" class="button button-primary">' . __( 'Generate Login Link', 'dologin' ) . '</a>';
+			$val .= '<a href="' . Util::build_url( Router::ACTION_PSWD, Pswdless::TYPE_GEN, false, null, array( 'uid' => $user_id ) ) . '" class="button button-primary">' . __( 'Generate Login Link', 'dologin' ) . '</a>';
 
 			return $val;
 		}

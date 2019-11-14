@@ -54,11 +54,12 @@ class Conf extends Instance
 				Util::version_check( 'new' );
 			}
 			else {
-				Util::version_check( 'upgrade' );
+				// DB update
+				Data::get_instance()->conf_upgrade();
 			}
 
 			foreach ( self::$_default_options as $k => $v ) {
-				add_option( 'dologin.' . $k, $v );
+				self::add( $k, $v );
 			}
 
 			self::update( '_ver', Core::VER );
@@ -90,6 +91,28 @@ class Conf extends Instance
 	public function get_options()
 	{
 		return $this->_options;
+	}
+
+	/**
+	 * Add one option
+	 *
+	 * @since  1.4.1
+	 * @access public
+	 */
+	public static function add( $id, $v )
+	{
+		add_option( 'dologin.' . $id, $v );
+	}
+
+	/**
+	 * Delete one option
+	 *
+	 * @since  1.4.1
+	 * @access public
+	 */
+	public static function delete( $id )
+	{
+		delete_option( 'dologin.' . $id );
 	}
 
 	/**

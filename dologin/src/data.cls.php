@@ -12,6 +12,12 @@ class Data extends Instance
 {
 	protected static $_instance;
 
+	private $_db_updater = array(
+		'1.4.1' => array(
+			'dologin_update_1_4_1',
+		),
+	);
+
 	const TB_FAILURE = 'dologin_failure' ;
 	const TB_SMS = 'dologin_sms' ;
 	const TB_PSWDLESS = 'dologin_pswdless' ;
@@ -24,6 +30,31 @@ class Data extends Instance
 	 */
 	protected function __construct()
 	{
+	}
+
+	/**
+	 * Data upgrade
+	 *
+	 * @since  1.4.1
+	 */
+	public function conf_upgrade()
+	{
+		require_once DOLOGIN_DIR . 'src/data.upgrade.func.php' ;
+
+		foreach ( $this->_db_updater as $k => $v ) {
+			if ( version_compare( DOLOGIN_CUR_V, $k, '<' ) ) {
+				// run each callback
+				foreach ( $v as $v2 ) {
+					defined( 'debug' ) && debug( "[Data] Updating [ori_v] " . DOLOGIN_CUR_V . " \t[to] $k \t[func] $v2" ) ;
+					call_user_func( $v2 ) ;
+				}
+			}
+		}
+
+		Conf::delete( '_ver' ) ;
+		Conf::add( '_ver', Core::VER ) ;
+
+		Util::version_check( 'upgrade' );
 	}
 
 	/**
@@ -88,15 +119,15 @@ class Data extends Instance
 	{
 		global $wpdb;
 
-		function_exists( 'debug2' ) && debug2( '[Data] Checking table ' . $tb );
+		defined( 'debug' ) && debug2( '[Data] Checking table ' . $tb );
 
 		// Check if table exists first
 		if ( $this->tb_exist( $tb ) ) {
-			function_exists( 'debug2' ) && debug2( '[Data] Existed' );
+			defined( 'debug' ) && debug2( '[Data] Existed' );
 			return;
 		}
 
-		function_exists( 'debug' ) && debug( '[Data] Creating ' . $tb );
+		defined( 'debug' ) && debug( '[Data] Creating ' . $tb );
 
 		$sql = sprintf(
 			'CREATE TABLE IF NOT EXISTS `%1$s` (' . $this->_tb_structure( $tb ) . ') %2$s;',
@@ -106,7 +137,7 @@ class Data extends Instance
 
 		$res = $wpdb->query( $sql );
 		if ( $res !== true ) {
-			function_exists( 'debug' ) && debug( '[Data] Warning! Creating table failed!', $sql );
+			defined( 'debug' ) && debug( '[Data] Warning! Creating table failed!', $sql );
 		}
 	}
 
@@ -124,7 +155,7 @@ class Data extends Instance
 			return ;
 		}
 
-		function_exists( 'debug' ) && debug( '[Data] Deleting table ' . $tb ) ;
+		defined( 'debug' ) && debug( '[Data] Deleting table ' . $tb ) ;
 
 		$q = 'DROP TABLE IF EXISTS ' . $this->tb( $tb ) ;
 		$wpdb->query( $q ) ;
