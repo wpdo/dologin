@@ -10,7 +10,7 @@ defined( 'WPINC' ) || exit;
 
 class IP
 {
-	const $PREFIX_SET = array(
+	public static $PREFIX_SET = array(
 		'continent',
 		'continent_code',
 		'country',
