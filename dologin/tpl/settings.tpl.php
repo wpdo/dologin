@@ -139,7 +139,7 @@ $current_user_phone = SMS::get_instance()->current_user_phone();
 
 <div class="wrap dologin-settings">
 	<h3>
-		<?php echo __( 'Password Less Login', 'dologin' ); ?>
+		<?php echo __( 'Passwordless Login', 'dologin' ); ?>
 
 		<a href="users.php" style="margin-left: 20px;"><?php echo __( 'Generate Links in Users List', 'dologin' ); ?></a>
 	</h3>
