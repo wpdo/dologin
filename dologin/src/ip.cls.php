@@ -10,7 +10,7 @@ defined( 'WPINC' ) || exit;
 
 class IP
 {
-	const PREFIX_SET = array(
+	const $PREFIX_SET = array(
 		'continent',
 		'continent_code',
 		'country',
@@ -71,7 +71,7 @@ class IP
 
 		// Build geo data
 		$geo_list = array( 'ip' => $ip );
-		foreach ( self::PREFIX_SET as $tag ) {
+		foreach ( self::$PREFIX_SET as $tag ) {
 			$geo_list[ $tag ] = ! empty( $data[ $tag ] ) ? trim( $data[ $tag ] ) : false;
 		}
 
