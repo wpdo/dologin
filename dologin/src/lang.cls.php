@@ -8,8 +8,28 @@ namespace dologin;
 
 defined( 'WPINC' ) || exit;
 
-class Lang
+class Lang extends Instance
 {
+	protected static $_instance;
+
+	/**
+	 * Init hook
+	 * @since  1.4.7
+	 */
+	public function init()
+	{
+		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) ) ;
+	}
+
+	/**
+	 * Plugin loaded hooks
+	 * @since 1.4.7
+	 */
+	public function plugins_loaded()
+	{
+		load_plugin_textdomain( 'dologin', false, 'dologin/lang/' ) ;
+	}
+
 	public static function msg( $tag, $num = null )
 	{
 		switch ( $tag ) {
