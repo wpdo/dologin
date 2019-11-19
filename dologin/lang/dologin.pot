@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the DoLogin Security package.
 msgid ""
 msgstr ""
-"Project-Id-Version: DoLogin Security 1.3.3\n"
+"Project-Id-Version: DoLogin Security 1.4.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dologin\n"
-"POT-Creation-Date: 2019-10-21 21:31:35+00:00\n"
+"POT-Creation-Date: 2019-11-19 14:41:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -12,7 +12,11 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: src/admin.cls.php:105
+#: src/admin.cls.php:93
+msgid "Generate Login Link"
+msgstr ""
+
+#: src/admin.cls.php:109
 msgid "Settings"
 msgstr ""
 
@@ -64,21 +68,21 @@ msgstr ""
 msgid "Dynamic code is not correct."
 msgstr ""
 
-#. #-#-#-#-#  dologin.pot (DoLogin Security 1.3.3)  #-#-#-#-#
+#. #-#-#-#-#  dologin.pot (DoLogin Security 1.4.6)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: src/lang.cls.php:49
 msgid "DoLogin Security"
 msgstr ""
 
-#: src/util.cls.php:125
+#: src/util.cls.php:209
 msgid "just now"
 msgstr ""
 
-#: src/util.cls.php:125
+#: src/util.cls.php:209
 msgid "right now"
 msgstr ""
 
-#: src/util.cls.php:127
+#: src/util.cls.php:211
 msgid " %s ago"
 msgstr ""
 
@@ -108,7 +112,7 @@ msgstr ""
 msgid "GDPR Compliance"
 msgstr ""
 
-#: tpl/settings.tpl.php:34 tpl/settings.tpl.php:106
+#: tpl/settings.tpl.php:34 tpl/settings.tpl.php:107
 msgid "Enable"
 msgstr ""
 
@@ -142,7 +146,7 @@ msgid "Text message is free sent by API from %s."
 msgstr ""
 
 #: tpl/settings.tpl.php:52
-msgid "Force SMS Code"
+msgid "Force SMS Auth Validation"
 msgstr ""
 
 #: tpl/settings.tpl.php:54
@@ -157,92 +161,157 @@ msgid ""
 "avoid yourself being blocked from next time login."
 msgstr ""
 
-#: tpl/settings.tpl.php:61 tpl/settings.tpl.php:97
+#: tpl/settings.tpl.php:56
+msgid ""
+"<a href=\"%s\">Click here to set your Dologin Security phone number</a>."
+msgstr ""
+
+#: tpl/settings.tpl.php:62 tpl/settings.tpl.php:98
 msgid "Whitelist"
 msgstr ""
 
-#: tpl/settings.tpl.php:68
+#: tpl/settings.tpl.php:69
 msgid "Format"
 msgstr ""
 
-#: tpl/settings.tpl.php:69
+#: tpl/settings.tpl.php:70
 msgid "Both prefix and value are case insensitive."
 msgstr ""
 
-#: tpl/settings.tpl.php:70
+#: tpl/settings.tpl.php:71
 msgid "Spaces around comma/colon are allowed."
 msgstr ""
 
-#: tpl/settings.tpl.php:71
+#: tpl/settings.tpl.php:72
 msgid "One rule set per line."
 msgstr ""
 
-#: tpl/settings.tpl.php:74
+#: tpl/settings.tpl.php:75
 msgid "Prefix list"
 msgstr ""
 
-#: tpl/settings.tpl.php:76
+#: tpl/settings.tpl.php:77
 msgid "IP prefix with colon is optional. IP value support wildcard (*)."
 msgstr ""
 
-#: tpl/settings.tpl.php:77 tpl/settings.tpl.php:78 tpl/settings.tpl.php:79
-#: tpl/settings.tpl.php:80
+#: tpl/settings.tpl.php:78 tpl/settings.tpl.php:79 tpl/settings.tpl.php:80
+#: tpl/settings.tpl.php:81
 msgid "Example"
 msgstr ""
 
-#: tpl/settings.tpl.php:78
+#: tpl/settings.tpl.php:79
 msgid "Dropped optional prefix"
 msgstr ""
 
-#: tpl/settings.tpl.php:82
+#: tpl/settings.tpl.php:83
 msgid "Get my GeoLocation data from"
 msgstr ""
 
-#: tpl/settings.tpl.php:90
+#: tpl/settings.tpl.php:91
 msgid "Blacklist"
 msgstr ""
 
-#: tpl/settings.tpl.php:97
+#: tpl/settings.tpl.php:98
 msgid "Same format as %s"
 msgstr ""
 
-#: tpl/settings.tpl.php:104
+#: tpl/settings.tpl.php:105
 msgid "Auto Upgrade"
 msgstr ""
 
-#: tpl/settings.tpl.php:108
+#: tpl/settings.tpl.php:109
 msgid "Enable this option to get the latest features at the first moment."
 msgstr ""
 
-#: tpl/settings.tpl.php:140
-msgid "Login Attempts Log"
+#: tpl/settings.tpl.php:142
+msgid "Passwordless Login"
 msgstr ""
 
-#: tpl/settings.tpl.php:146
-msgid "Date"
+#: tpl/settings.tpl.php:144
+msgid "Generate Links in Users List"
 msgstr ""
 
 #: tpl/settings.tpl.php:147
+msgid "Here you can generate login links and manage them."
+msgstr ""
+
+#: tpl/settings.tpl.php:153 tpl/settings.tpl.php:208
+msgid "Date"
+msgstr ""
+
+#: tpl/settings.tpl.php:154
+msgid "User"
+msgstr ""
+
+#: tpl/settings.tpl.php:155
+msgid "Link"
+msgstr ""
+
+#: tpl/settings.tpl.php:156
+msgid "Created By"
+msgstr ""
+
+#: tpl/settings.tpl.php:157
+msgid "Count"
+msgstr ""
+
+#: tpl/settings.tpl.php:158
+msgid "Last Used At"
+msgstr ""
+
+#: tpl/settings.tpl.php:159
+msgid "Expired At"
+msgstr ""
+
+#: tpl/settings.tpl.php:160
+msgid "One Time Usage"
+msgstr ""
+
+#: tpl/settings.tpl.php:161
+msgid "Status"
+msgstr ""
+
+#: tpl/settings.tpl.php:177
+msgid "+7 Days"
+msgstr ""
+
+#: tpl/settings.tpl.php:187
+msgid "Active"
+msgstr ""
+
+#: tpl/settings.tpl.php:189
+msgid "Disabled"
+msgstr ""
+
+#: tpl/settings.tpl.php:202
+msgid "Login Attempts Log"
+msgstr ""
+
+#: tpl/settings.tpl.php:209
 msgid "IP"
 msgstr ""
 
-#: tpl/settings.tpl.php:148
+#: tpl/settings.tpl.php:210
 msgid "GeoLocation"
 msgstr ""
 
-#: tpl/settings.tpl.php:149
+#: tpl/settings.tpl.php:211
 msgid "Login As"
 msgstr ""
 
-#: tpl/settings.tpl.php:150
+#: tpl/settings.tpl.php:212
 msgid "Gateway"
+msgstr ""
+
+#: tpl/settings.tpl.php:231
+msgid "Rate Us!"
 msgstr ""
 
 #. Description of the plugin/theme
 msgid ""
+"Passwordless login. Free text SMS code for 2nd step verification login. "
 "GeoLocation (Continent/Country/City) or IP range to limit login attempts. "
-"Support Whitelist and Blacklist. Will have free text SMS message passcode "
-"for 2nd step verification support soon."
+"Support Whitelist and Blacklist."
 msgstr ""
 
 #. Author of the plugin/theme
