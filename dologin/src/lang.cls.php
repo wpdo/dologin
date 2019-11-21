@@ -33,6 +33,22 @@ class Lang extends Instance
 	public static function msg( $tag, $num = null )
 	{
 		switch ( $tag ) {
+			case 'try_after' :
+				$msg = sprintf( __( 'Please try after %ds.', 'dologin' ), $num );
+				break;
+
+			case 'not_phone_set_curr' :
+				$msg = __( 'No Dologin Security phone number set under your profile.', 'dologin' );
+				break;
+
+			case 'not_phone_set_user' :
+				$msg = __( 'No phone number under this user profile.', 'dologin' );
+				break;
+
+			case 'empty_u_p' :
+				$msg = __( 'Empty username/password.', 'dologin' );
+				break;
+
 			case 'not_in_whitelist' :
 				$msg = __( 'Your IP is not in the whitelist.', 'dologin' );
 				break;

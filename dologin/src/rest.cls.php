@@ -40,6 +40,11 @@ class REST extends Instance
 			'methods' => 'POST',
 			'callback' => __CLASS__ . '::sms',
 		) );
+
+		register_rest_route( 'dologin/v1', '/test_sms', array(
+			'methods' => 'POST',
+			'callback' => __CLASS__ . '::test_sms',
+		) );
 	}
 
 	/**
@@ -56,6 +61,14 @@ class REST extends Instance
 	public static function sms()
 	{
 		return SMS::get_instance()->send();
+	}
+
+	/**
+	 * Send test SMS
+	 */
+	public static function test_sms()
+	{
+		return SMS::get_instance()->test_send();
 	}
 
 	/**

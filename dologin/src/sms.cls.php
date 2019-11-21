@@ -83,6 +83,38 @@ class SMS extends Instance
 	}
 
 	/**
+	 * Send test SMS
+	 *
+	 * @since  1.3
+	 */
+	public function test_send()
+	{
+		global $wpdb;
+		if ( empty( $_POST[ 'phone' ] ) ) {
+			return REST::err( Lang::msg( 'not_phone_set_curr' ) );
+		}
+
+		// Check interval
+		if ( time() - get_option( 'dologin_test' ) < 60 ) {
+			return REST::err( Lang::msg( 'try_after', 60 ) );
+		}
+
+		update_option( 'dologin_test', time() );
+
+		$phone = $_POST[ 'phone' ];
+		$info = 'Test SMS message at ' . date( 'm/d/Y H:i:s' );
+
+		// Send
+		try {
+			$res = $this->_api( $phone, $info );
+		} catch ( \Exception $ex ) {
+			return REST::err( $ex->getMessage() );
+		}
+
+		return REST::ok( array( 'info' => 'Sent to ***' . substr( $phone, -4 ) . ' at ' . date( 'm/d/Y H:i:s' ) ) );
+	}
+
+	/**
 	 * Send SMS
 	 *
 	 * @since  1.3
@@ -96,7 +128,7 @@ class SMS extends Instance
 		}
 
 		if ( empty( $_POST[ 'user' ] ) || empty( $_POST[ 'pswd' ] ) ) {
-			return REST::err( 'Empty username/password' );
+			return REST::err( Lang::msg( 'empty_u_p' ) );
 		}
 
 		// Verify u & p first
@@ -114,7 +146,7 @@ class SMS extends Instance
 			if ( ! Conf::val( 'sms_force' ) ) {
 				return REST::ok( array( 'bypassed' => 1 ) );
 			}
-			return REST::err( 'No phone number under this user profile' );
+			return REST::err( Lang::msg( 'not_phone_set_user' ) );
 		}
 
 		// Generate dynamic code
@@ -141,17 +173,11 @@ class SMS extends Instance
 		$id = $wpdb->insert_id;
 
 		// Send
-		$url = 'https://doapi.us/text?format=json';
-		$data = array( 'phone' => $phone, 'content' => $info, 'app' => 'wp-' . home_url() );
-
-		$res = wp_remote_post( $url, array( 'body' => $data, 'timeout' => 15, 'sslverify' => false ) ); // id=>xx
-
-		if ( is_wp_error( $res ) ) {
-			$error_message = $res->get_error_message();
-			return REST::err( $error_message );
+		try {
+			$res = $this->_api( $phone, $info );
+		} catch ( \Exception $ex ) {
+			return REST::err( $ex->getMessage() );
 		}
-
-		$res = $res[ 'body' ];
 
 		// Update log
 		$wpdb->query( $wpdb->prepare( "UPDATE $tb_sms SET res = %s WHERE id = %d", array( $res, $id ) ) );
@@ -168,6 +194,29 @@ class SMS extends Instance
 		}
 
 		return REST::err( 'Unknown error' );
+	}
+
+	/**
+	 * Call API to send msg
+	 *
+	 * @since  1.5
+	 */
+	private function _api( $phone, $content )
+	{
+		$app = 'wp-' . home_url();
+
+		// Send
+		$url = 'https://doapi.us/text?format=json';
+		$data = array( 'phone' => $phone, 'content' => $content, 'app' => $app );
+
+		$res = wp_remote_post( $url, array( 'body' => $data, 'timeout' => 15, 'sslverify' => false ) ); // id=>xx
+
+		if ( is_wp_error( $res ) ) {
+			$error_message = $res->get_error_message();
+			throw new \Exception( $error_message );
+		}
+
+		return $res[ 'body' ];
 	}
 
 }

@@ -52,8 +52,16 @@ $current_user_phone = SMS::get_instance()->current_user_phone();
 				<p><label><input type="checkbox" name="sms_force" value="1" <?php echo Conf::val( 'sms_force' ) ? 'checked' : ''; ?> /> <?php echo __( 'Force SMS Auth Validation', 'dologin' ); ?></label></p>
 				<p class="description">
 					<?php echo __( 'If enabled this, any user without phone set in profile will not be able to login.', 'dologin' ); ?>
-					<?php if ( ! $current_user_phone ) echo '<div class="dologin-warning-h3">' . __( 'You need to setup your Dologin Phone number before enabling this setting to avoid yourself being blocked from next time login.', 'dologin' ) . '</div>'; ?>
-					<?php echo sprintf( __( '<a href="%s">Click here to set your Dologin Security phone number</a>.', 'dologin' ), 'profile.php' ); ?>
+					<a href="profile.php"><?php echo __( 'Click here to set your Dologin Security phone number', 'dologin' ); ?></a>
+					<?php if ( ! $current_user_phone ) : ?>
+						<?php echo '<div class="dologin-warning-h3">' . __( 'You need to setup your Dologin Phone number before enabling this setting to avoid yourself being blocked from next time login.', 'dologin' ) . '</div>'; ?>
+					<?php else : ?>
+				</p>
+				<p class="description">
+						<button type="button" class="button button-primary" id="dologin_test_sms"><?php echo __( 'Test SMS message', 'dologin' ); ?></button>
+						<span id='dologin_test_sms_res'></span>
+						<?php echo __( 'This will send a test text message to your phone number.', 'dologin' ); ?>
+					<?php endif; ?>
 				</p>
 			</td>
 		</tr>
@@ -121,6 +129,24 @@ $current_user_phone = SMS::get_instance()->current_user_phone();
 
 <script>
 	jQuery( function( $ ) {
+		$( '#dologin_test_sms' ).click( function( e ) {
+			$.ajax( {
+				url: '<?php echo get_rest_url( null, 'dologin/v1/test_sms' ); ?>',
+				type: 'POST',
+				dataType: 'json',
+				data: {
+					phone: '<?php echo SMS::get_instance()->current_user_phone(); ?>'
+				},
+				success: function( res ) {
+					if ( res._res !== 'ok' ) {
+						$( '#dologin_test_sms_res' ).attr( 'class', 'dologin-err' ).html( res._msg );
+					} else {
+						$( '#dologin_test_sms_res' ).attr( 'class', 'dologin-success' ).html( res.info );
+					}
+				}
+			} );
+		} );
+
 		$( '#dologin_get_ip' ).click( function( e ) {
 			$.ajax( {
 				url: '<?php echo get_rest_url( null, 'dologin/v1/myip' ); ?>',

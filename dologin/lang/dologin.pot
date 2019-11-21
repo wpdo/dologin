@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the DoLogin Security package.
 msgid ""
 msgstr ""
-"Project-Id-Version: DoLogin Security 1.4.6\n"
+"Project-Id-Version: DoLogin Security 1.4.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dologin\n"
-"POT-Creation-Date: 2019-11-19 14:41:20+00:00\n"
+"POT-Creation-Date: 2019-11-19 16:41:12+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -40,37 +40,37 @@ msgstr ""
 msgid "Failed to write to %s."
 msgstr ""
 
-#: src/lang.cls.php:17
+#: src/lang.cls.php:37
 msgid "Your IP is not in the whitelist."
 msgstr ""
 
-#: src/lang.cls.php:21
+#: src/lang.cls.php:41
 msgid "Your IP is in the blacklist."
 msgstr ""
 
-#: src/lang.cls.php:25
+#: src/lang.cls.php:45
 msgid "Too many failed login attempts."
 msgstr ""
 
-#: src/lang.cls.php:29
+#: src/lang.cls.php:49
 msgid "ON"
 msgstr ""
 
-#: src/lang.cls.php:33
+#: src/lang.cls.php:53
 msgid "%s attempt(s) remaining."
 msgstr ""
 
-#: src/lang.cls.php:37
+#: src/lang.cls.php:57
 msgid "Dynamic code is required."
 msgstr ""
 
-#: src/lang.cls.php:41
+#: src/lang.cls.php:61
 msgid "Dynamic code is not correct."
 msgstr ""
 
-#. #-#-#-#-#  dologin.pot (DoLogin Security 1.4.6)  #-#-#-#-#
+#. #-#-#-#-#  dologin.pot (DoLogin Security 1.4.7)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
-#: src/lang.cls.php:49
+#: src/lang.cls.php:69
 msgid "DoLogin Security"
 msgstr ""
 
